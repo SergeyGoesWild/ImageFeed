@@ -2,8 +2,6 @@
 //  ViewController.swift
 //  ImageFeed
 //
-//  Created by Sergey Telnov on 29/08/2024.
-//
 
 import UIKit
 
@@ -67,7 +65,7 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let image = UIImage(named: photosName[indexPath.row]) else {
-            return 0.0
+            return 0
         }
         let aspectRatio = image.size.width / image.size.height
         return tableView.bounds.width / aspectRatio
