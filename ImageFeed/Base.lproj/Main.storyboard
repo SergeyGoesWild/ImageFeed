@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZSd-Jg-iUt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WId-sv-St1">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -91,13 +91,14 @@
                             <constraint firstItem="FOb-bX-Or3" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="khC-CY-YMv"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="YGL-R1-QGf"/>
                     <connections>
                         <outlet property="tableView" destination="FOb-bX-Or3" id="tGu-8g-7sZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="61.832061068702288" y="-34.507042253521128"/>
+            <point key="canvasLocation" x="-1060" y="-715"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="WGX-gY-4aL">
@@ -161,10 +162,30 @@
                             <constraint firstItem="oa3-L8-9ru" firstAttribute="centerY" secondItem="zNv-mK-wwN" secondAttribute="centerY" id="qt4-Si-uEG"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="" image="tab_profile_active" id="JJB-g5-c2W"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vEK-TN-acR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-680.15267175572512" y="-35.211267605633807"/>
+            <point key="canvasLocation" x="-1060" y="-36"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="BWz-Oe-9Gf">
+            <objects>
+                <tabBarController id="WId-sv-St1" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Kgb-g9-4vl">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="qC7-O9-Vxm"/>
+                        <segue destination="ZSd-Jg-iUt" kind="relationship" relationship="viewControllers" id="tCE-Au-64G"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oO6-xC-vae" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2016" y="-428"/>
         </scene>
     </scenes>
     <resources>
@@ -173,5 +194,7 @@
         <image name="Heart" width="42" height="42"/>
         <image name="LikeClicked" width="42" height="42"/>
         <image name="ProfilePhoto" width="70" height="70"/>
+        <image name="tab_editorial_active" width="20" height="22"/>
+        <image name="tab_profile_active" width="24" height="24"/>
     </resources>
 </document>
