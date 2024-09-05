@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZSd-Jg-iUt">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -99,10 +99,79 @@
             </objects>
             <point key="canvasLocation" x="61.832061068702288" y="-34.507042253521128"/>
         </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="WGX-gY-4aL">
+            <objects>
+                <viewController id="ZSd-Jg-iUt" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7GC-0D-7zg">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ProfilePhoto" translatesAutoresizingMaskIntoConstraints="NO" id="zNv-mK-wwN">
+                                <rect key="frame" x="16" y="76" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="zNv-mK-wwN" secondAttribute="height" multiplier="1:1" id="ErG-7z-dgA"/>
+                                    <constraint firstAttribute="height" constant="70" id="Os2-CP-xKQ"/>
+                                    <constraint firstAttribute="width" constant="70" id="dcf-dJ-RrX"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Екатерина Новикова" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L91-GY-fIx">
+                                <rect key="frame" x="16" y="154" width="361" height="28"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="23"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@ekaterina_nov" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kY8-NP-YwF">
+                                <rect key="frame" x="16" y="190" width="361" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.68235294117647061" green="0.68627450980392157" blue="0.70588235294117641" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello, world!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z9c-Ru-DiR">
+                                <rect key="frame" x="16" y="214" width="361" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oa3-L8-9ru">
+                                <rect key="frame" x="345" y="99" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="c3C-EN-oVY"/>
+                                    <constraint firstAttribute="width" constant="24" id="qdc-Rw-ZxZ"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="ExitButton"/>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="uTi-s1-jkG"/>
+                        <color key="backgroundColor" red="0.1019607843" green="0.1058823529" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="zNv-mK-wwN" firstAttribute="leading" secondItem="7GC-0D-7zg" secondAttribute="leading" constant="16" id="Ajt-en-t0L"/>
+                            <constraint firstItem="kY8-NP-YwF" firstAttribute="leading" secondItem="uTi-s1-jkG" secondAttribute="leading" constant="16" id="Ffl-VZ-ase"/>
+                            <constraint firstItem="zNv-mK-wwN" firstAttribute="top" secondItem="7GC-0D-7zg" secondAttribute="top" constant="76" id="O3o-dR-Zlo"/>
+                            <constraint firstItem="L91-GY-fIx" firstAttribute="top" secondItem="zNv-mK-wwN" secondAttribute="bottom" constant="8" id="WWe-Cr-Z5g"/>
+                            <constraint firstAttribute="trailing" secondItem="oa3-L8-9ru" secondAttribute="trailing" constant="24" id="WiX-hY-ScF"/>
+                            <constraint firstItem="Z9c-Ru-DiR" firstAttribute="leading" secondItem="uTi-s1-jkG" secondAttribute="leading" constant="16" id="ZZA-8e-9b9"/>
+                            <constraint firstItem="kY8-NP-YwF" firstAttribute="top" secondItem="L91-GY-fIx" secondAttribute="bottom" constant="8" id="avd-WG-I7B"/>
+                            <constraint firstItem="uTi-s1-jkG" firstAttribute="trailing" secondItem="kY8-NP-YwF" secondAttribute="trailing" constant="16" id="eC8-PA-jHq"/>
+                            <constraint firstItem="Z9c-Ru-DiR" firstAttribute="top" secondItem="kY8-NP-YwF" secondAttribute="bottom" constant="8" id="eXw-sd-gke"/>
+                            <constraint firstItem="L91-GY-fIx" firstAttribute="leading" secondItem="uTi-s1-jkG" secondAttribute="leading" constant="16" id="j0h-oY-6hK"/>
+                            <constraint firstItem="uTi-s1-jkG" firstAttribute="trailing" secondItem="L91-GY-fIx" secondAttribute="trailing" constant="16" id="jRB-x7-HgP"/>
+                            <constraint firstItem="uTi-s1-jkG" firstAttribute="trailing" secondItem="Z9c-Ru-DiR" secondAttribute="trailing" constant="16" id="mAA-lM-pnc"/>
+                            <constraint firstItem="oa3-L8-9ru" firstAttribute="centerY" secondItem="zNv-mK-wwN" secondAttribute="centerY" id="qt4-Si-uEG"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vEK-TN-acR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-680.15267175572512" y="-35.211267605633807"/>
+        </scene>
     </scenes>
     <resources>
         <image name="0" width="1600" height="1059"/>
+        <image name="ExitButton" width="24" height="24"/>
         <image name="Heart" width="42" height="42"/>
         <image name="LikeClicked" width="42" height="42"/>
+        <image name="ProfilePhoto" width="70" height="70"/>
     </resources>
 </document>
