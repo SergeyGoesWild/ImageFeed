@@ -15,4 +15,7 @@ final class SingleImageViewController: UIViewController {
         super.viewDidLoad()
         imageView.image = image
     }
+    @IBAction private func pushBackButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
 }
