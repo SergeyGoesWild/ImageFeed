@@ -13,38 +13,13 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let imageView = spawnProfilePicture(profilePictureName: "ProfilePhoto")
-        let nameLabel = spawnNameLabel(userName: "Екатерина Новикова")
-        let tagLabel = spawnTagLabel(profileTag: "@ekaterina_nov")
-        let textLabel = spawnTextLabel(profileText: "Hello, world!")
-        let exitButton = spawnExitButton(iconName: "ExitButton")
+        let imageView = makeProfilePicture(profilePictureName: "ProfilePhoto")
+        let nameLabel = makeNameLabel(userName: "Екатерина Новикова")
+        let tagLabel = makeTagLabel(profileTag: "@ekaterina_nov")
+        let textLabel = makeTextLabel(profileText: "Hello, world!")
+        let exitButton = makeExitButton(iconName: "ExitButton")
         
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        tagLabel.translatesAutoresizingMaskIntoConstraints = false
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
-        exitButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(imageView)
-        view.addSubview(nameLabel)
-        view.addSubview(tagLabel)
-        view.addSubview(textLabel)
-        view.addSubview(exitButton)
-        
-        NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            tagLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            textLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 52),
-            nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
-            tagLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
-            textLabel.topAnchor.constraint(equalTo: tagLabel.bottomAnchor, constant: 8),
-            exitButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
-        ])
-        
+        setupProfileScreen(profilePicture: imageView, nameLabel: nameLabel, tagLabel: tagLabel, textLabel: textLabel, exitButton: exitButton, sidePadding: 16, topPadding: 52, lineSpacing: 8)
     }
     
     @objc
@@ -52,13 +27,13 @@ class ProfileViewController: UIViewController {
         print("pressed EXIT button")
     }
     
-    private func spawnProfilePicture(profilePictureName: String) -> UIImageView {
-        let UserPicture = UIImage(named: profilePictureName)
-        let imageView = UIImageView(image: UserPicture)
+    private func makeProfilePicture(profilePictureName: String) -> UIImageView {
+        let userPicture = UIImage(named: profilePictureName)
+        let imageView = UIImageView(image: userPicture)
         return imageView
     }
     
-    private func spawnNameLabel(userName: String) -> UILabel {
+    private func makeNameLabel(userName: String) -> UILabel {
         let nameLabel = UILabel()
         nameLabel.textColor = .white
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
@@ -66,7 +41,7 @@ class ProfileViewController: UIViewController {
         return nameLabel
     }
     
-    private func spawnTagLabel(profileTag: String) -> UILabel {
+    private func makeTagLabel(profileTag: String) -> UILabel {
         let tagLabel = UILabel()
         tagLabel.textColor = UIColor(red: 0.68, green: 0.69, blue: 0.71, alpha: 1.00)
         tagLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -74,7 +49,7 @@ class ProfileViewController: UIViewController {
         return tagLabel
     }
     
-    private func spawnTextLabel(profileText: String) -> UILabel {
+    private func makeTextLabel(profileText: String) -> UILabel {
         let textLabel = UILabel()
         textLabel.textColor = .white
         textLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -82,11 +57,39 @@ class ProfileViewController: UIViewController {
         return textLabel
     }
     
-    private func spawnExitButton(iconName: String) -> UIButton {
+    private func makeExitButton(iconName: String) -> UIButton {
         let exitIcon = UIImage(named: iconName)
         let backupIcon = UIImage(systemName: "xmark.square")
         let exitButton = UIButton.systemButton(with: exitIcon ?? backupIcon!, target: self, action: #selector(Self.didTapExitButton))
         return exitButton
+    }
+    
+    private func setupProfileScreen(profilePicture: UIImageView, nameLabel: UILabel, tagLabel: UILabel, textLabel: UILabel, exitButton: UIButton, sidePadding: CGFloat, topPadding: CGFloat, lineSpacing: CGFloat) {
+        profilePicture.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        tagLabel.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        exitButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(profilePicture)
+        view.addSubview(nameLabel)
+        view.addSubview(tagLabel)
+        view.addSubview(textLabel)
+        view.addSubview(exitButton)
+        
+        NSLayoutConstraint.activate([
+            profilePicture.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: sidePadding),
+            nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: sidePadding),
+            tagLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: sidePadding),
+            textLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: sidePadding),
+            exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -sidePadding),
+            
+            profilePicture.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topPadding),
+            nameLabel.topAnchor.constraint(equalTo: profilePicture.bottomAnchor, constant: lineSpacing),
+            tagLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: lineSpacing),
+            textLabel.topAnchor.constraint(equalTo: tagLabel.bottomAnchor, constant: lineSpacing),
+            exitButton.centerYAnchor.constraint(equalTo: profilePicture.centerYAnchor)
+        ])
     }
     
 }

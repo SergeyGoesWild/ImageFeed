@@ -5,7 +5,7 @@
 
 import UIKit
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
     
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
@@ -18,8 +18,6 @@ class ImagesListViewController: UIViewController {
     
     @IBOutlet weak private var tableView: UITableView!
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -28,21 +26,21 @@ class ImagesListViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            if segue.identifier == showSingleImageSegueIdentifier {
-                guard
-                    let viewController = segue.destination as? SingleImageViewController,
-                    let indexPath = sender as? IndexPath
-                else {
-                    assertionFailure("Invalid segue destination")
-                    return
-                }
-
-                let image = UIImage(named: photosName[indexPath.row])
-                viewController.image = image
-            } else {
-                super.prepare(for: segue, sender: sender)
+        if segue.identifier == showSingleImageSegueIdentifier {
+            guard
+                let viewController = segue.destination as? SingleImageViewController,
+                let indexPath = sender as? IndexPath
+            else {
+                assertionFailure("Invalid segue destination")
+                return
             }
+            
+            let image = UIImage(named: photosName[indexPath.row])
+            viewController.image = image
+        } else {
+            super.prepare(for: segue, sender: sender)
         }
+    }
 }
 
 extension ImagesListViewController: UITableViewDataSource {
@@ -53,11 +51,11 @@ extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-                
+        
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
-                
+        
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
@@ -68,7 +66,7 @@ extension ImagesListViewController: UITableViewDataSource {
             return
         }
         
-        cell.bgImage.image = image
+        cell.backgroundImage.image = image
         cell.dateLabel.text = dateFormatter.string(from: Date())
         if indexPath.row % 2 == 0 {
             cell.likeButton.setImage(UIImage(named: "LikeClicked"), for: .normal)
