@@ -28,16 +28,47 @@ final class SingleImageViewController: UIViewController {
         super.viewDidLoad()
         guard let image = image else { return }
         imageView.image = image
-        imageView.frame.size = image.size
-        scrollView.contentSize = image.size
-        let newX = abs(scrollView.frame.width / 2 - imageView.frame.size.width / 2)
-        let newY = abs(scrollView.frame.height / 2 - imageView.frame.size.height / 2)
-        scrollView.contentOffset = CGPoint(x: newX, y: newY)
+        imageView.layer.borderColor = UIColor.red.cgColor
+        imageView.layer.borderWidth = 2
+//        imageView.frame.size = image.size
+//        scrollView.contentSize = image.size
+//        let newX = abs(scrollView.frame.width / 2 - imageView.frame.size.width / 2)
+//        let newY = abs(scrollView.frame.height / 2 - imageView.frame.size.height / 2)
+//        scrollView.contentOffset = CGPoint(x: newX, y: newY)
 //        rescaleAndCenterImageInScrollView(image: image)
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // Now the scrollView frame is set, and we can get its size
+        guard let image = image else { return }
+        let ratio = image.size.height / image.size.width
+        
+        imageView.frame.size.width = scrollView.frame.width
+        imageView.frame.size.height = imageView.frame.size.width * ratio
+        
+        scrollView.contentSize = scrollView.frame.size
+        
+        let newY = scrollView.frame.height / 2 - imageView.frame.size.height / 2
+        scrollView.contentOffset = CGPoint(x: 0, y: -newY)
+        
+        print("new Y : ", newY)
+        print(ratio)
+        print(imageView.frame.size.width, " x ", imageView.frame.size.height)
+        print(scrollView.frame.size.width, " x ", scrollView.frame.size.height)
+//        imageView.frame.size = image.size
+//        scrollView.contentSize = image.size
+//        let newX = abs(scrollView.frame.width / 2 - imageView.frame.size.width / 2)
+//        let newY = abs(scrollView.frame.height / 2 - imageView.frame.size.height / 2)
+//        scrollView.contentOffset = CGPoint(x: newX, y: newY)
+//        print(imageView.frame.size.width, " x ", imageView.frame.size.height)
+//        print(scrollView.frame.size.width, " x ", scrollView.frame.size.height)
+//        print(newX, newY)
+
+    }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
