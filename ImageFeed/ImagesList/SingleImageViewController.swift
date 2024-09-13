@@ -24,20 +24,20 @@ final class SingleImageViewController: UIViewController {
     @IBOutlet private var imageView: UIImageView!
     
     override func viewDidLoad() {
+//        Просто пытаюсь отцентрировать изображение, пока без масштабирования, в оригинальном размере, чтобы было проще.
         super.viewDidLoad()
         guard let image = image else { return }
         imageView.image = image
         imageView.frame.size = image.size
-        rescaleAndCenterImageInScrollView(image: image)
+        scrollView.contentSize = image.size
+        let newX = abs(scrollView.frame.width / 2 - imageView.frame.size.width / 2)
+        let newY = abs(scrollView.frame.height / 2 - imageView.frame.size.height / 2)
+        scrollView.contentOffset = CGPoint(x: newX, y: newY)
+//        rescaleAndCenterImageInScrollView(image: image)
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
     }
-    
-//    override func viewDidLayoutSubviews() {
-//            super.viewDidLayoutSubviews()
-//            guard let image = image else { return }
-//            rescaleAndCenterImageInScrollView(image: image)
-//        }
+
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
