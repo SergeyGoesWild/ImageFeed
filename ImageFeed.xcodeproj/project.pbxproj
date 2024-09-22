@@ -22,6 +22,7 @@
 		2ACC2D5A2C9D880F00392EEA /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC2D592C9D880F00392EEA /* OAuth2Service.swift */; };
 		2ACC2D5C2C9E1FDD00392EEA /* URLSession+data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC2D5B2C9E1FDD00392EEA /* URLSession+data.swift */; };
 		2ACC2D5F2C9F34FE00392EEA /* OAuth2TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC2D5E2C9F34FE00392EEA /* OAuth2TokenStorage.swift */; };
+		2ACC2D612CA0B03F00392EEA /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC2D602CA0B03F00392EEA /* SplashViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		2ACC2D592C9D880F00392EEA /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		2ACC2D5B2C9E1FDD00392EEA /* URLSession+data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+data.swift"; sourceTree = "<group>"; };
 		2ACC2D5E2C9F34FE00392EEA /* OAuth2TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStorage.swift; sourceTree = "<group>"; };
+		2ACC2D602CA0B03F00392EEA /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				2A90F2992C8098E60007F7A2 /* AppDelegate.swift */,
 				2A90F29B2C8098E60007F7A2 /* SceneDelegate.swift */,
 				2A90F29F2C8098E60007F7A2 /* Main.storyboard */,
+				2ACC2D602CA0B03F00392EEA /* SplashViewController.swift */,
 				2ACC2D5D2C9E1FEF00392EEA /* Services */,
 				2A90F2A22C8098E70007F7A2 /* Assets.xcassets */,
 				2A90F2A42C8098E70007F7A2 /* LaunchScreen.storyboard */,
@@ -195,6 +198,7 @@
 				2A90F2AE2C821B7E0007F7A2 /* ImagesListCell.swift in Sources */,
 				2ACC2D532C98A30800392EEA /* AuthViewController.swift in Sources */,
 				2A90F29A2C8098E60007F7A2 /* AppDelegate.swift in Sources */,
+				2ACC2D612CA0B03F00392EEA /* SplashViewController.swift in Sources */,
 				2A6ED0692C8A0DE900CB4A0D /* SingleImageViewController.swift in Sources */,
 				2ACC2D562C98EAAF00392EEA /* WebViewViewController.swift in Sources */,
 				2ACC2D5C2C9E1FDD00392EEA /* URLSession+data.swift in Sources */,
