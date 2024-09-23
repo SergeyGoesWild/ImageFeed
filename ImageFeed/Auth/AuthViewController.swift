@@ -8,14 +8,19 @@
 import Foundation
 import UIKit
 
+protocol AuthViewControllerDelegate: AnyObject {
+    func didAuthenticate()
+}
+
 final class AuthViewController: UIViewController, WebViewViewControllerDelegate {
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
     
+    weak var delegate: AuthViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackButton()
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -30,7 +35,9 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     }
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        oauth2Service.fetchOAuthToken(code: code)
+        oauth2Service.fetchOAuthToken(code: code) {
+            self.delegate?.didAuthenticate()
+        }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

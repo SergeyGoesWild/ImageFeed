@@ -12,8 +12,8 @@ final class OAuth2Service {
     private let storage = OAuth2TokenStorage()
     static let shared = OAuth2Service()
     private init() {}
-
-    func fetchOAuthToken(code: String) -> Void {
+    
+    func fetchOAuthToken(code: String, completion: @escaping () -> Void) {
         
         guard var request = makeUrlRequest(code: code) else {
             print("problem with making URL request")
@@ -27,11 +27,8 @@ final class OAuth2Service {
                     let decoder = JSONDecoder()
                     let stringData = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                     print("DATA RECEIVED")
-                    print("Token from storage 01 : ")
-                    print(self.storage.bearerToken)
-                    self.storage.bearerToken = stringData.access_token
-                    print("Token from storage 02 : ")
-                    print(self.storage.bearerToken)
+                    self.storage.token = stringData.access_token
+                    completion()
                 } catch {
                     print("Problem with DECODING data")
                 }

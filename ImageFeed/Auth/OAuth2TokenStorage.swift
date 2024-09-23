@@ -16,16 +16,17 @@ struct OAuthTokenResponseBody: Decodable {
 }
 
 final class OAuth2TokenStorage{
-    var bearerToken: String {
+    var token: String? {
         get {
-            guard let returnValue = UserDefaults.standard.string(forKey: "bearerToken") else {
+            guard let returnValue = UserDefaults.standard.string(forKey: "token") else {
                 print("Problem with getting the token from memory")
-                return ""
+                return nil
             }
+            print("Token okay")
             return returnValue
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: "bearerToken")
+            UserDefaults.standard.setValue(newValue, forKey: "token")
         }
     }
 }
