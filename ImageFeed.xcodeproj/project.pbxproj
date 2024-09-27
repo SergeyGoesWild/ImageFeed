@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A08D37F2CA6E16D00873435 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A08D37E2CA6E16D00873435 /* UIBlockingProgressHUD.swift */; };
 		2A6ED0672C89A92600CB4A0D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6ED0662C89A92600CB4A0D /* ProfileViewController.swift */; };
 		2A6ED0692C8A0DE900CB4A0D /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6ED0682C8A0DE900CB4A0D /* SingleImageViewController.swift */; };
 		2A90F29A2C8098E60007F7A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A90F2992C8098E60007F7A2 /* AppDelegate.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A08D37E2CA6E16D00873435 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		2A6ED0662C89A92600CB4A0D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		2A6ED0682C8A0DE900CB4A0D /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		2A90F2962C8098E60007F7A2 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +64,7 @@
 		2A90F28D2C8098E60007F7A2 = {
 			isa = PBXGroup;
 			children = (
+				2A08D37E2CA6E16D00873435 /* UIBlockingProgressHUD.swift */,
 				2ACC2D572C9992B000392EEA /* Constants.swift */,
 				2A90F2982C8098E60007F7A2 /* ImageFeed */,
 				2A90F2972C8098E60007F7A2 /* Products */,
@@ -213,6 +216,7 @@
 				2A90F29C2C8098E60007F7A2 /* SceneDelegate.swift in Sources */,
 				2ACC2D5A2C9D880F00392EEA /* OAuth2Service.swift in Sources */,
 				2ACC2D582C9992B000392EEA /* Constants.swift in Sources */,
+				2A08D37F2CA6E16D00873435 /* UIBlockingProgressHUD.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

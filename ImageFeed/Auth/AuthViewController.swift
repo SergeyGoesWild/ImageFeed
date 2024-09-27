@@ -17,7 +17,6 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
     private let storage = OAuth2TokenStorage()
-    
     weak var delegate: AuthViewControllerDelegate?
     
     override func viewDidLoad() {
@@ -38,17 +37,18 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         
-        ProgressHUD.animate()
+        UIBlockingProgressHUD.show()
         oauth2Service.fetchOAuthToken(code: code) { result in
             switch result {
             case .success(let access_token):
-                ProgressHUD.dismiss()
+                UIBlockingProgressHUD.dismiss()
                 self.storage.token = access_token
                 print("WENT TO SUCCESS")
                 self.delegate?.didAuthenticate()
             case .failure(let error):
                 //TODO: наладить функционирование, чтобы нормально закрывалось окно и как-то реагировало приложение
-                ProgressHUD.dismiss()
+                // возможно нужно добавить код, который сворачивал был webView, иначе там как будто несостыковка
+                UIBlockingProgressHUD.dismiss()
                 print("This error during Network or decoding: ", error)
                 print("WENT TO FAILURE")
             }
