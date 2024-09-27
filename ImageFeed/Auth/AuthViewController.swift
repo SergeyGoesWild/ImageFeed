@@ -16,6 +16,7 @@ protocol AuthViewControllerDelegate: AnyObject {
 final class AuthViewController: UIViewController, WebViewViewControllerDelegate {
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
+    private let storage = OAuth2TokenStorage()
     
     weak var delegate: AuthViewControllerDelegate?
     
@@ -38,9 +39,19 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         
         ProgressHUD.animate()
-        oauth2Service.fetchOAuthToken(code: code) {
-            ProgressHUD.dismiss()
-            self.delegate?.didAuthenticate()
+        oauth2Service.fetchOAuthToken(code: code) { result in
+            switch result {
+            case .success(let access_token):
+                ProgressHUD.dismiss()
+                self.storage.token = access_token
+                print("WENT TO SUCCESS")
+                self.delegate?.didAuthenticate()
+            case .failure(let error):
+                //TODO: наладить функционирование, чтобы нормально закрывалось окно и как-то реагировало приложение
+                ProgressHUD.dismiss()
+                print("This error during Network or decoding: ", error)
+                print("WENT TO FAILURE")
+            }
         }
     }
     

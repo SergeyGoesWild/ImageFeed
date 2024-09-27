@@ -8,18 +8,44 @@
 import Foundation
 import UIKit
 
+enum AuthServiceError: Error {
+    case invalidRequest
+}
+
 final class OAuth2Service {
-    private let storage = OAuth2TokenStorage()
     static let shared = OAuth2Service()
     private init() {}
+    private let urlSession = URLSession.shared
+    private var task: URLSessionTask?
+    private var lastCode: String?
     
-    func fetchOAuthToken(code: String, completion: @escaping () -> Void) {
+    func fetchOAuthToken(code: String, completion: @escaping (Swift.Result<String, Error>) -> Void) {
         
-        guard var request = makeUrlRequest(code: code) else {
+        assert(Thread.isMainThread)
+        if task != nil {
+            if lastCode != code {
+                task?.cancel()
+                print("-----> 01")
+            } else {
+                print("-----> 02")
+                completion(.failure(AuthServiceError.invalidRequest))
+                return
+            }
+        } else {
+            if lastCode == code {
+                print("-----> 03")
+                completion(.failure(AuthServiceError.invalidRequest))
+                return
+            }
+        }
+        lastCode = code
+        
+        guard let request = makeUrlRequest(code: code) else {
             print("problem with making URL request")
+            completion(.failure(AuthServiceError.invalidRequest))
             return
         }
-        request.httpMethod = "POST"
+        
         networkClient(request: request) { result in
             switch result {
             case .success(let data):
@@ -27,13 +53,14 @@ final class OAuth2Service {
                     let decoder = JSONDecoder()
                     let stringData = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                     print("DATA RECEIVED")
-                    self.storage.token = stringData.access_token
-                    completion()
+                    completion(.success(stringData.access_token))
                 } catch {
                     print("Problem with DECODING data")
+                    completion(.failure(NetworkError.decodingError))
                 }
             case .failure(let error):
                 print("Error while FETCHING: ", error)
+                completion(.failure(error))
             }
         }
     }
@@ -52,7 +79,9 @@ final class OAuth2Service {
         ]
         
         if let url = urlComponents.url {
-            return URLRequest(url: url)
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            return request
         } else {
             print("Problem with URL")
             return nil
@@ -64,10 +93,12 @@ final class OAuth2Service {
         let fulfillCompletionOnTheMainThread: (Result<Data, Error>) -> Void = { result in
             DispatchQueue.main.async {
                 handler(result)
+                self.task = nil
+                self.lastCode = nil
             }
         }
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = urlSession.dataTask(with: request) { data, response, error in
             
             if let error = error {
                 fulfillCompletionOnTheMainThread(.failure(error))
@@ -83,7 +114,7 @@ final class OAuth2Service {
             guard let data = data else { return }
             fulfillCompletionOnTheMainThread(.success(data))
         }
-        
+        self.task = task
         task.resume()
     }
 }
