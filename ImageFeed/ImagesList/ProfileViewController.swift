@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 
 class ProfileViewController: UIViewController {
+    let profileService = ProfileService()
+    private let storage = OAuth2TokenStorage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,24 @@ class ProfileViewController: UIViewController {
         let exitButton = makeExitButton(iconName: "ExitButton")
         
         setupProfileScreen(profilePicture: imageView, nameLabel: nameLabel, tagLabel: tagLabel, textLabel: textLabel, exitButton: exitButton, sidePadding: 16, topPadding: 52, lineSpacing: 8)
+        
+        guard let token = storage.token else {
+            print("Can't get token for profile")
+            return
+        }
+        profileService.fetchProfile(token) { result in
+            switch result {
+            case .success(let profile):
+                DispatchQueue.main.async {
+                    nameLabel.text = profile.name
+                    tagLabel.text = profile.loginName
+                    textLabel.text = profile.bio
+                }
+            case .failure(let error):
+                print("Error while retrieving profile DATA")
+                print(error)
+            }
+        }
     }
     
     @objc

@@ -10,7 +10,7 @@ import UIKit
 
 enum NetworkError: Error {
     case httpStatusCode(Int)
-    case urlRequestError(Error)
+    case urlRequestError
     case urlSessionError
     case decodingError
 }
@@ -34,7 +34,7 @@ extension URLSession {
                     fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
                 }
             } else if let error = error {
-                fulfillCompletionOnTheMainThread(.failure(NetworkError.urlRequestError(error)))
+                fulfillCompletionOnTheMainThread(.failure(NetworkError.urlRequestError))
             } else {
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
             }
