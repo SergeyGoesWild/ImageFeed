@@ -7,24 +7,28 @@
 
 import Foundation
 
+struct ProfileResult: Codable {
+    let id: String
+    let username: String
+    let first_name: String
+    let last_name: String
+    let bio: String
+}
+
+struct Profile {
+    let username: String
+    let name: String
+    let loginName: String
+    let bio: String
+}
+
 final class ProfileService {
     
+    static let shared = ProfileService()
+    private init() {}
+    
     private let storage = OAuth2TokenStorage()
-    
-    struct ProfileResult: Codable {
-        let id: String
-        let username: String
-        let first_name: String
-        let last_name: String
-        let bio: String
-    }
-    
-    struct Profile {
-        let username: String
-        let name: String
-        let loginName: String
-        let bio: String
-    }
+    private(set) var profileToShare: Profile = Profile(username: "A", name: "B", loginName: "C", bio: "D")
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         guard let request = makeUrlRequestProfile(token: token) else {
@@ -52,6 +56,7 @@ final class ProfileService {
                 let decoder = JSONDecoder()
                 let stringData = try decoder.decode(ProfileResult.self, from: data)
                 let profile = Profile(username: stringData.username, name: stringData.first_name + " " + stringData.last_name, loginName: "@" + stringData.username, bio: stringData.bio)
+                self.profileToShare = profile
                 completion(.success(profile))
             }
             catch {

@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 class ProfileViewController: UIViewController {
-    let profileService = ProfileService()
     private let storage = OAuth2TokenStorage()
     
     override func viewDidLoad() {
@@ -23,18 +22,19 @@ class ProfileViewController: UIViewController {
         
         setupProfileScreen(profilePicture: imageView, nameLabel: nameLabel, tagLabel: tagLabel, textLabel: textLabel, exitButton: exitButton, sidePadding: 16, topPadding: 52, lineSpacing: 8)
         
+        nameLabel.text = ProfileService.shared.profileToShare.name
+        tagLabel.text = ProfileService.shared.profileToShare.loginName
+        textLabel.text = ProfileService.shared.profileToShare.bio
+        
         guard let token = storage.token else {
             print("Can't get token for profile")
             return
         }
-        profileService.fetchProfile(token) { result in
+        ProfileService.shared.fetchProfile(token) { result in
             switch result {
             case .success(let profile):
-                DispatchQueue.main.async {
-                    nameLabel.text = profile.name
-                    tagLabel.text = profile.loginName
-                    textLabel.text = profile.bio
-                }
+                print("SUCCESS")
+                
             case .failure(let error):
                 print("Error while retrieving profile DATA")
                 print(error)
