@@ -68,7 +68,7 @@ final class ProfileService {
         task.resume()
     }
     
-    func makeUrlRequestProfile(token: String) -> URLRequest? {
+    private func makeUrlRequestProfile(token: String) -> URLRequest? {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "api.unsplash.com"
@@ -78,7 +78,6 @@ final class ProfileService {
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-            print("TOKEN: ", token)
             return request
         } else {
             print("Problem with URL")

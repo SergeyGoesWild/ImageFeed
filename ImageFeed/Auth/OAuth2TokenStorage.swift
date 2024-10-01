@@ -22,7 +22,6 @@ final class OAuth2TokenStorage{
                 print("Problem with getting the token from memory")
                 return nil
             }
-            print("Token okay")
             return returnValue
         }
         set {

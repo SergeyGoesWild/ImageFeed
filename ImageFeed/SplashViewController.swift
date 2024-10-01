@@ -17,8 +17,7 @@ final class SplashViewController: UIViewController {
         super.viewDidAppear(animated)
 
         if let token = oauth2TokenStorage.token {
-            print("-----> Switching from IF on start")
-            switchToTabBarController()
+            didAuthenticate()
         } else {
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
         }
@@ -57,9 +56,36 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate() {
-        print("-----> went to DID AUTHEN")
         dismiss(animated: true)
-        print("-----> Switching from DELEGATE")
+        UIBlockingProgressHUD.show()
+        ProfileService.shared.fetchProfile(oauth2TokenStorage.token!) { result in
+            print("Запустили фетч ПРОФАЙЛ")
+            switch result {
+            //TODO: что-то решить с этой передачей профиля которая уже не нужна
+            case .success(let profile):
+                DispatchQueue.main.async {
+                    UIBlockingProgressHUD.dismiss()
+                    print("КОНЕЦ фетч ПРОФАЙЛ")
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    print("Error while retrieving profile DATA")
+                    print(error)
+                    UIBlockingProgressHUD.dismiss()
+                }
+            }
+        }
+        
         switchToTabBarController()
+        
+        ProfileImageService.shared.fetchProfileImageURL(userName: "sergeytelnov34") { result in
+            print("Запустили фетч ФОТО")
+            switch result {
+            case .success(let result):
+                print("конец фетч ФОТО")
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }

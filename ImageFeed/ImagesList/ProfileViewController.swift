@@ -26,20 +26,6 @@ class ProfileViewController: UIViewController {
         tagLabel.text = ProfileService.shared.profileToShare.loginName
         textLabel.text = ProfileService.shared.profileToShare.bio
         
-        guard let token = storage.token else {
-            print("Can't get token for profile")
-            return
-        }
-        ProfileService.shared.fetchProfile(token) { result in
-            switch result {
-            case .success(let profile):
-                print("SUCCESS")
-                
-            case .failure(let error):
-                print("Error while retrieving profile DATA")
-                print(error)
-            }
-        }
     }
     
     @objc
