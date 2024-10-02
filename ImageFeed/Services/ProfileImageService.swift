@@ -59,11 +59,16 @@ final class ProfileImageService {
                 let stringData = try decoder.decode(UserResult.self, from: data)
                 let userResult = UserResult(profile_image: stringData.profile_image)
                 self.avatarURL = userResult.profile_image.small
-                guard let avatarSmall = self.avatarURL else {
+                guard let profileImageURL = self.avatarURL else {
                     completion(.failure(NetworkError.decodingError))
                     return
                 }
-                completion(.success(avatarSmall))
+                completion(.success(profileImageURL))
+                NotificationCenter.default
+                    .post(
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["URL": profileImageURL])
             }
             catch {
                 print("Profile ERROR from decoding")

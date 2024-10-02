@@ -10,6 +10,7 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     private let storage = OAuth2TokenStorage()
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,30 @@ class ProfileViewController: UIViewController {
         tagLabel.text = ProfileService.shared.profileToShare.loginName
         textLabel.text = ProfileService.shared.profileToShare.bio
         
+        profileImageServiceObserver = NotificationCenter.default    // 2
+                    .addObserver(
+                        forName: ProfileImageService.didChangeNotification, // 3
+                        object: nil,                                        // 4
+                        queue: .main                                        // 5
+                    ) { [weak self] _ in
+                        guard let self = self else { return }
+                        self.updateAvatar()                                 // 6
+                    }
+                updateAvatar()
+        
     }
+    
+    private func updateAvatar() {                                   // 8
+            guard
+                let profileImageURL = ProfileImageService.shared.avatarURL,
+                let url = URL(string: profileImageURL)
+        else {
+                print("NOT GOOOD")
+                return
+            }
+            // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+            print("ALLLLL GOOOOD")
+        }
     
     @objc
     private func didTapExitButton() {
