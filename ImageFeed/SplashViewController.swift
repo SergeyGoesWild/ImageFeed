@@ -63,16 +63,16 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             //TODO: что-то решить с этой передачей профиля которая уже не нужна
             case .success(let profile):
-                DispatchQueue.main.async {
+                
                     UIBlockingProgressHUD.dismiss()
                     print("КОНЕЦ фетч ПРОФАЙЛ")
-                }
+                
             case .failure(let error):
-                DispatchQueue.main.async {
+                
                     print("Error while retrieving profile DATA")
                     print(error)
                     UIBlockingProgressHUD.dismiss()
-                }
+                
             }
         }
         

@@ -35,22 +35,30 @@ final class NetworkClient {
             
             if let error = error {
                 print("Profile ERROR from error")
-                completion(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
             }
             
             if let response = response as? HTTPURLResponse,
                response.statusCode < 200 || response.statusCode >= 300 {
                 print("Profile ERROR from code")
-                completion(.failure(NetworkError.httpStatusCode(response.statusCode)))
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkError.httpStatusCode(response.statusCode)))
+                }
                 return
             }
             
             guard let data = data else {
-                completion(.failure(NetworkError.decodingError))
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkError.decodingError))
+                }
                 return
             }
-            completion(.success(data))
+            DispatchQueue.main.async {
+                completion(.success(data))
+            }
         }
         task.resume()
     }
