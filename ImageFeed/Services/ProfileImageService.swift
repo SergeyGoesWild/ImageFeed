@@ -29,13 +29,13 @@ final class ProfileImageService {
     
     func fetchProfileImageURL(userName: String, _ completion: @escaping (Result<String, Error>) -> Void){
         guard let token = storage.token else {
-            print("Profile Image token ERROR")
-            completion(.failure(NetworkError.urlRequestError))
+            print("-----> [ProfileImageService]: token error")
+            completion(.failure(CommonError.tokenError))
             return
         }
         
         guard let request = makeUrlRequestProfile(token: token, userName: userName) else {
-            print("Profile ERROR from request")
+            print("-----> [ProfileImageService]: url request error")
             completion(.failure(NetworkError.urlRequestError))
             return
         }
@@ -45,7 +45,8 @@ final class ProfileImageService {
             case .success(let userResult):
                 self.avatarURL = userResult.profile_image.small
                 guard let profileImageURL = self.avatarURL else {
-                    completion(.failure(NetworkError.decodingError))
+                    print("-----> [ProfileImageService]: url unwrap error")
+                    completion(.failure(NetworkError.urlUnwrapError))
                     return
                 }
                 completion(.success(profileImageURL))
@@ -72,7 +73,7 @@ final class ProfileImageService {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             return request
         } else {
-            print("Problem with URL")
+            print("-----> [ProfileImageService]: url components error")
             return nil
         }
     }

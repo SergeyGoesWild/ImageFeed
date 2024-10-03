@@ -49,18 +49,17 @@ final class OAuth2Service {
         lastCode = code
         
         guard let request = makeUrlRequest(code: code) else {
-            print("problem with making URL request")
-            completion(.failure(AuthServiceError.invalidRequest))
+            print("-----> [AuthService]: url request error")
+            completion(.failure(NetworkError.urlRequestError))
             return
         }
         
         networkClient.objectTask(for: request) { (result: Result<OAuthTokenResponseBody, Error>) in
             switch result {
             case .success(let tokenResponse):
-                print("DATA RECEIVED")
                 completion(.success(tokenResponse.access_token))
             case .failure(let error):
-                print("Error while FETCHING: ", error)
+                print("-----> [AuthService]: Error while fetching")
                 completion(.failure(error))
             }
         }
@@ -89,6 +88,7 @@ final class OAuth2Service {
         }
     }
     
+    //TODO: материал чтобы изменить состояние гонки здесь, примени, потом удали это
     func networkClient(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
         
         let fulfillCompletionOnTheMainThread: (Result<Data, Error>) -> Void = { result in

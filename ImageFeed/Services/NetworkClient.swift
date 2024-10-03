@@ -20,10 +20,9 @@ final class NetworkClient {
                     completion(.success(convertedData))
                 }
                 catch {
-                    print("Profile ERROR from decoding")
-                    completion(.failure(NetworkError.urlRequestError))
+                    print("Decoding error: \(error.localizedDescription), Data: \(String(data: data, encoding: .utf8) ?? "")")
+                    completion(.failure(CommonError.decodingError))
                 }
-                print(data)
             case .failure(let error):
                 print(error)
             }
@@ -34,7 +33,7 @@ final class NetworkClient {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             
             if let error = error {
-                print("Profile ERROR from error")
+                print("-----> [NetworkClient]: dataTask returned error")
                 DispatchQueue.main.async {
                     completion(.failure(error))
                 }
@@ -43,7 +42,7 @@ final class NetworkClient {
             
             if let response = response as? HTTPURLResponse,
                response.statusCode < 200 || response.statusCode >= 300 {
-                print("Profile ERROR from code")
+                print("-----> [NetworkClient]: response error with code \(response.statusCode)")
                 DispatchQueue.main.async {
                     completion(.failure(NetworkError.httpStatusCode(response.statusCode)))
                 }
@@ -51,8 +50,9 @@ final class NetworkClient {
             }
             
             guard let data = data else {
+                print("-----> [NetworkClient]: dataTask error while unwrapping data")
                 DispatchQueue.main.async {
-                    completion(.failure(NetworkError.decodingError))
+                    completion(.failure(NetworkError.dataError))
                 }
                 return
             }

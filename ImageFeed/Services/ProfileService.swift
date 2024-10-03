@@ -33,7 +33,7 @@ final class ProfileService {
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         guard let request = makeUrlRequestProfile(token: token) else {
-            print("Profile ERROR from request")
+            print("-----> [ProfileService]: url request error")
             completion(.failure(NetworkError.urlRequestError))
             return
         }

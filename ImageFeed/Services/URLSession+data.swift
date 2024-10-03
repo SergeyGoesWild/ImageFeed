@@ -12,7 +12,13 @@ enum NetworkError: Error {
     case httpStatusCode(Int)
     case urlRequestError
     case urlSessionError
+    case urlUnwrapError
+    case dataError
+}
+
+enum CommonError: Error {
     case decodingError
+    case tokenError
 }
 
 extension URLSession {
