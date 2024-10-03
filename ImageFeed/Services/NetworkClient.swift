@@ -9,8 +9,6 @@ import Foundation
 
 final class NetworkClient {
     
-    var data: Data?
-    
     func objectTask<T: Decodable>(for request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
         
         fetchData(for: request) { data in

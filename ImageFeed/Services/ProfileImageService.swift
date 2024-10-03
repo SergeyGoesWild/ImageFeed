@@ -24,6 +24,7 @@ final class ProfileImageService {
     private init() {}
     
     private let storage = OAuth2TokenStorage()
+    private let networkClient = NetworkClient()
     private (set) var avatarURL: String?
     
     func fetchProfileImageURL(userName: String, _ completion: @escaping (Result<String, Error>) -> Void){
@@ -38,26 +39,10 @@ final class ProfileImageService {
             completion(.failure(NetworkError.urlRequestError))
             return
         }
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            if let error = error {
-                print("Profile ERROR from error")
-                completion(.failure(error))
-                return
-            }
-            
-            if let response = response as? HTTPURLResponse,
-                response.statusCode < 200 || response.statusCode >= 300 {
-                print("Profile ERROR from code")
-                completion(.failure(NetworkError.httpStatusCode(response.statusCode)))
-                return
-            }
-            
-            guard let data = data else { return }
-            do {
-                let decoder = JSONDecoder()
-                let stringData = try decoder.decode(UserResult.self, from: data)
-                let userResult = UserResult(profile_image: stringData.profile_image)
+        
+        networkClient.objectTask(for: request) { (result: Result<UserResult, Error>) in
+            switch result {
+            case .success(let userResult):
                 self.avatarURL = userResult.profile_image.small
                 guard let profileImageURL = self.avatarURL else {
                     completion(.failure(NetworkError.decodingError))
@@ -69,14 +54,10 @@ final class ProfileImageService {
                         name: ProfileImageService.didChangeNotification,
                         object: self,
                         userInfo: ["URL": profileImageURL])
-            }
-            catch {
-                print("Profile ERROR from decoding")
-                //TODO: Привести в порядок все сообщения об ошибках
-                completion(.failure(NetworkError.urlRequestError))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
-        task.resume()
     }
     
     private func makeUrlRequestProfile(token: String, userName: String) -> URLRequest? {

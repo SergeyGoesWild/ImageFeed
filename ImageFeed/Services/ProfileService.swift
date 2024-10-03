@@ -28,6 +28,7 @@ final class ProfileService {
     private init() {}
     
     private let storage = OAuth2TokenStorage()
+    private let networkClient = NetworkClient()
     private(set) var profileToShare: Profile = Profile(username: "A", name: "B", loginName: "C", bio: "D")
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
@@ -36,36 +37,16 @@ final class ProfileService {
             completion(.failure(NetworkError.urlRequestError))
             return
         }
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            if let error = error {
-                print("Profile ERROR from error")
-                completion(.failure(error))
-                return
-            }
-            
-            if let response = response as? HTTPURLResponse,
-                response.statusCode < 200 || response.statusCode >= 300 {
-                print("Profile ERROR from code")
-                completion(.failure(NetworkError.httpStatusCode(response.statusCode)))
-                return
-            }
-            
-            guard let data = data else { return }
-            do {
-                let decoder = JSONDecoder()
-                let stringData = try decoder.decode(ProfileResult.self, from: data)
-                let profile = Profile(username: stringData.username, name: stringData.first_name + " " + stringData.last_name, loginName: "@" + stringData.username, bio: stringData.bio)
+        networkClient.objectTask(for: request) { (result: Result<ProfileResult, Error>) in
+            switch result {
+            case .success(let profileResult):
+                let profile = Profile(username: profileResult.username, name: profileResult.first_name + " " + profileResult.last_name, loginName: "@" + profileResult.username, bio: profileResult.bio)
                 self.profileToShare = profile
                 completion(.success(profile))
-            }
-            catch {
-                print("Profile ERROR from decoding")
-                //TODO: Привести в порядок все сообщения об ошибках
-                completion(.failure(NetworkError.urlRequestError))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
-        task.resume()
     }
     
     private func makeUrlRequestProfile(token: String) -> URLRequest? {

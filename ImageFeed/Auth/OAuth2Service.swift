@@ -12,8 +12,16 @@ enum AuthServiceError: Error {
     case invalidRequest
 }
 
+struct OAuthTokenResponseBody: Decodable {
+    let access_token: String
+    let token_type: String
+    let scope: String
+    let created_at: Int
+}
+
 final class OAuth2Service {
     static let shared = OAuth2Service()
+    private let networkClient = NetworkClient()
     private init() {}
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
@@ -46,18 +54,11 @@ final class OAuth2Service {
             return
         }
         
-        networkClient(request: request) { result in
+        networkClient.objectTask(for: request) { (result: Result<OAuthTokenResponseBody, Error>) in
             switch result {
-            case .success(let data):
-                do {
-                    let decoder = JSONDecoder()
-                    let stringData = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    print("DATA RECEIVED")
-                    completion(.success(stringData.access_token))
-                } catch {
-                    print("Problem with DECODING data")
-                    completion(.failure(NetworkError.decodingError))
-                }
+            case .success(let tokenResponse):
+                print("DATA RECEIVED")
+                completion(.success(tokenResponse.access_token))
             case .failure(let error):
                 print("Error while FETCHING: ", error)
                 completion(.failure(error))
@@ -106,7 +107,7 @@ final class OAuth2Service {
             }
             
             if let response = response as? HTTPURLResponse,
-                response.statusCode < 200 || response.statusCode >= 300 {
+               response.statusCode < 200 || response.statusCode >= 300 {
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(response.statusCode)))
                 return
             }
