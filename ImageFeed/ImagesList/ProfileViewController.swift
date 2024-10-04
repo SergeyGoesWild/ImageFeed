@@ -7,15 +7,17 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 class ProfileViewController: UIViewController {
     private let storage = OAuth2TokenStorage()
     private var profileImageServiceObserver: NSObjectProtocol?
+    var imageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let imageView = makeProfilePicture(profilePictureName: "ProfilePhoto")
+        imageView = makeProfilePicture(profilePictureName: "ProfilePhoto")
         let nameLabel = makeNameLabel(userName: "Екатерина Новикова")
         let tagLabel = makeTagLabel(profileTag: "@ekaterina_nov")
         let textLabel = makeTextLabel(profileText: "Hello, world!")
@@ -48,7 +50,7 @@ class ProfileViewController: UIViewController {
                 print("NOT GOOOD")
                 return
             }
-            // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+            imageView.kf.setImage(with: url, placeholder: UIImage(named: "ProfilePhoto.png"))
             print("ALLLLL GOOOOD")
         }
     
