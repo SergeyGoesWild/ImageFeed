@@ -7,18 +7,19 @@
 
 import Foundation
 import UIKit
+import SwiftKeychainWrapper
 
 final class OAuth2TokenStorage{
     var token: String? {
         get {
-            guard let returnValue = UserDefaults.standard.string(forKey: "token") else {
+            guard let returnValue = KeychainWrapper.standard.string(forKey: "token") else {
                 print("Problem with getting the token from memory")
                 return nil
             }
             return returnValue
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: "token")
+            KeychainWrapper.standard.set(newValue ?? "", forKey: "token")
         }
     }
 }
