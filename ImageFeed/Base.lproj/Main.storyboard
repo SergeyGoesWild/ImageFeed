@@ -103,22 +103,6 @@
             </objects>
             <point key="canvasLocation" x="-133.58778625954199" y="-715.49295774647896"/>
         </scene>
-        <!--Profile View Controller-->
-        <scene sceneID="WGX-gY-4aL">
-            <objects>
-                <viewController storyboardIdentifier="ProfileViewController" id="ZSd-Jg-iUt" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="7GC-0D-7zg">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="uTi-s1-jkG"/>
-                        <color key="backgroundColor" red="0.1019607843" green="0.1058823529" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="" image="tab_profile_active" id="JJB-g5-c2W"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vEK-TN-acR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-134" y="39"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="BWz-Oe-9Gf">
             <objects>
@@ -356,7 +340,6 @@
         <image name="LogoUnsplash" width="60" height="60"/>
         <image name="backChevron" width="9" height="15.666666984558105"/>
         <image name="tab_editorial_active" width="20" height="22"/>
-        <image name="tab_profile_active" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
