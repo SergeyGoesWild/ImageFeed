@@ -26,11 +26,11 @@ final class SplashViewController: UIViewController {
             print(token)
             didAuthenticate()
         } else {
-            print("WENT TO AUTH")
-            let authController = AuthViewController()
-            authController.delegate = self
-            authController.modalPresentationStyle = .fullScreen
-            present(authController, animated: true, completion: nil)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            if let viewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController {
+                viewController.modalPresentationStyle = .fullScreen
+                self.present(viewController, animated: true, completion: nil)
+            }
         }
     }
 
@@ -64,6 +64,7 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate() {
+        print("CAME TO DID AUTH")
         dismiss(animated: true)
         UIBlockingProgressHUD.show()
         ProfileService.shared.fetchProfile(oauth2TokenStorage.token!) { result in
