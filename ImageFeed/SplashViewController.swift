@@ -7,19 +7,30 @@
 
 import Foundation
 import UIKit
+import SwiftKeychainWrapper
 
 final class SplashViewController: UIViewController {
     private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
-
     private let oauth2TokenStorage = OAuth2TokenStorage()
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        KeychainWrapper.standard.removeObject(forKey: "token")
+        setupSplashScreen()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if let token = oauth2TokenStorage.token {
+            print(token)
             didAuthenticate()
         } else {
-            performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
+            print("WENT TO AUTH")
+            let authController = AuthViewController()
+            authController.delegate = self
+            authController.modalPresentationStyle = .fullScreen
+            present(authController, animated: true, completion: nil)
         }
     }
 
@@ -41,16 +52,13 @@ final class SplashViewController: UIViewController {
 }
 
 extension SplashViewController {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else { fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)") }
-            viewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
+    func setupSplashScreen() {
+        let logo = UIImage(named: "LogoUnsplash")
+        let imageView = UIImageView(image: logo)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(imageView)
+        imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 }
 
