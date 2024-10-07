@@ -48,9 +48,10 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
             case .failure(let error):
                 //TODO: наладить функционирование, чтобы нормально закрывалось окно и как-то реагировало приложение
                 // возможно нужно добавить код, который сворачивал был webView, иначе там как будто несостыковка
+                print("*** WENT TO FAILURE before dismiss ***")
                 UIBlockingProgressHUD.dismiss()
+                self.dismiss(animated: true, completion: nil)
                 print("This error during Network or decoding: ", error)
-                print("WENT TO FAILURE")
             }
         }
     }

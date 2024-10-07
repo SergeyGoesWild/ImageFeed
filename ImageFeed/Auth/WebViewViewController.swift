@@ -30,6 +30,7 @@ final class WebViewViewController: UIViewController {
     
     override func viewDidLoad(){
         super.viewDidLoad()
+        print("---->   WebView: in viewDidLoad")
         webView.navigationDelegate = self
         loadAuthView()
         
@@ -48,6 +49,7 @@ final class WebViewViewController: UIViewController {
     }
     
     private func loadAuthView(){
+        print("---->   WebView: in loadAuthView")
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
             print("-----> Error with base URLComponents (first step)")
             return
@@ -74,6 +76,7 @@ extension WebViewViewController: WKNavigationDelegate {
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
+        print("---->   WebView: in Cancel / Allow")
         if let code = code(from: navigationAction) {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             print("GO CANCEL")

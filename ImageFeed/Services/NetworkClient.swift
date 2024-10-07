@@ -9,6 +9,8 @@ import Foundation
 
 final class NetworkClient {
     
+    var task: URLSessionDataTask?
+    
     func objectTask<T: Decodable>(for request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
         
         fetchData(for: request) { data in
@@ -25,12 +27,14 @@ final class NetworkClient {
                 }
             case .failure(let error):
                 print(error)
+                self.task?.cancel()
+                completion(.failure(error))
             }
         }
     }
     
     func fetchData(for request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        task = URLSession.shared.dataTask(with: request) { data, response, error in
             
             if let error = error {
                 print("-----> [NetworkClient]: dataTask returned error")
@@ -60,6 +64,7 @@ final class NetworkClient {
                 completion(.success(data))
             }
         }
-        task.resume()
+        guard let networkTask = task else { return }
+        networkTask.resume()
     }
 }
