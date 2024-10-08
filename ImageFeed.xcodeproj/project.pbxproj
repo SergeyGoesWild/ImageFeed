@@ -75,11 +75,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A6F76AC2CB54EF800C86988 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2A6ED0662C89A92600CB4A0D /* ProfileViewController.swift */,
+				2A08D38C2CB0A0BB00873435 /* Tab Bar Controller.swift */,
+				2ACC2D602CA0B03F00392EEA /* SplashViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2A90F28D2C8098E60007F7A2 = {
 			isa = PBXGroup;
 			children = (
-				2A6F76AA2CB5437300C86988 /* AlertService.swift */,
-				2A08D37E2CA6E16D00873435 /* UIBlockingProgressHUD.swift */,
 				2ACC2D572C9992B000392EEA /* Constants.swift */,
 				2A90F2982C8098E60007F7A2 /* ImageFeed */,
 				2A90F2972C8098E60007F7A2 /* Products */,
@@ -97,12 +105,12 @@
 		2A90F2982C8098E60007F7A2 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				2A6F76AC2CB54EF800C86988 /* Views */,
 				2ACC2D542C98E45500392EEA /* Auth */,
 				2A90F2AF2C821BF20007F7A2 /* ImagesList */,
 				2A90F2992C8098E60007F7A2 /* AppDelegate.swift */,
 				2A90F29B2C8098E60007F7A2 /* SceneDelegate.swift */,
 				2A90F29F2C8098E60007F7A2 /* Main.storyboard */,
-				2ACC2D602CA0B03F00392EEA /* SplashViewController.swift */,
 				2ACC2D5D2C9E1FEF00392EEA /* Services */,
 				2A90F2A22C8098E70007F7A2 /* Assets.xcassets */,
 				2A90F2A42C8098E70007F7A2 /* LaunchScreen.storyboard */,
@@ -116,7 +124,6 @@
 			children = (
 				2A90F2AD2C821B7E0007F7A2 /* ImagesListCell.swift */,
 				2A90F29D2C8098E60007F7A2 /* ImagesListViewController.swift */,
-				2A6ED0662C89A92600CB4A0D /* ProfileViewController.swift */,
 				2A6ED0682C8A0DE900CB4A0D /* SingleImageViewController.swift */,
 			);
 			path = ImagesList;
@@ -125,8 +132,6 @@
 		2ACC2D542C98E45500392EEA /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				2ACC2D592C9D880F00392EEA /* OAuth2Service.swift */,
-				2ACC2D5E2C9F34FE00392EEA /* OAuth2TokenStorage.swift */,
 				2ACC2D552C98EAAF00392EEA /* WebViewViewController.swift */,
 				2ACC2D522C98A30800392EEA /* AuthViewController.swift */,
 			);
@@ -136,11 +141,14 @@
 		2ACC2D5D2C9E1FEF00392EEA /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				2ACC2D592C9D880F00392EEA /* OAuth2Service.swift */,
+				2ACC2D5E2C9F34FE00392EEA /* OAuth2TokenStorage.swift */,
+				2A08D37E2CA6E16D00873435 /* UIBlockingProgressHUD.swift */,
+				2A6F76AA2CB5437300C86988 /* AlertService.swift */,
 				2A08D3832CA74DDC00873435 /* ProfileService.swift */,
 				2ACC2D5B2C9E1FDD00392EEA /* URLSession+data.swift */,
 				2A08D3882CAC7A0100873435 /* ProfileImageService.swift */,
 				2A08D38A2CADFF8500873435 /* NetworkClient.swift */,
-				2A08D38C2CB0A0BB00873435 /* Tab Bar Controller.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
