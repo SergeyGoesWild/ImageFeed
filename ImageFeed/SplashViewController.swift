@@ -65,24 +65,20 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate() {
-        print("CAME TO DID AUTH")
+        print("LOG: CAME TO DID AUTH")
         dismiss(animated: true)
         UIBlockingProgressHUD.show()
         ProfileService.shared.fetchProfile(oauth2TokenStorage.token!) { result in
             print("Запустили фетч ПРОФАЙЛ")
             switch result {
-            //TODO: что-то решить с этой передачей профиля которая уже не нужна
+            
             case .success(let profile):
-                
                     UIBlockingProgressHUD.dismiss()
                     print("КОНЕЦ фетч ПРОФАЙЛ")
-                
             case .failure(let error):
-                
                     print("Error while retrieving profile DATA")
                     print(error)
                     UIBlockingProgressHUD.dismiss()
-                
             }
         }
         

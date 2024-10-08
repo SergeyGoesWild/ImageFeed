@@ -16,23 +16,21 @@ protocol WebViewViewControllerDelegate: AnyObject {
 
 final class WebViewViewController: UIViewController {
     
-    private var estimatedProgressObservation: NSKeyValueObservation?
-    
-    @IBOutlet private var progressView: UIProgressView!
-    
     weak var delegate: WebViewViewControllerDelegate?
-    
     enum WebViewConstants {
         static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     }
+    private var estimatedProgressObservation: NSKeyValueObservation?
     
+    @IBOutlet private var progressView: UIProgressView!
     @IBOutlet weak var webView: WKWebView!
     
     override func viewDidLoad(){
         super.viewDidLoad()
-        print("---->   WebView: in viewDidLoad")
+        print("LOG: WebView: in viewDidLoad")
         webView.navigationDelegate = self
-        loadAuthView()
+        
+        clearWebViewData()
         
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
@@ -42,16 +40,26 @@ final class WebViewViewController: UIViewController {
                  self.updateProgress()
              })
     }
-
+    
+    // Этот код добавил чтобы отработать сценарий ошибки, чтобы данные не кэшировались
+    func clearWebViewData() {
+        let websiteDataTypes = Set([WKWebsiteDataTypeCookies, WKWebsiteDataTypeLocalStorage, WKWebsiteDataTypeSessionStorage, WKWebsiteDataTypeDiskCache])
+        let dateFrom = Date(timeIntervalSince1970: 0)
+        WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes, modifiedSince: dateFrom) {
+            print("LOG: Cleared web view data")
+            self.loadAuthView()
+        }
+    }
+    
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
     
     private func loadAuthView(){
-        print("---->   WebView: in loadAuthView")
+        print("LOG: WebView: in loadAuthView")
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
-            print("-----> Error with base URLComponents (first step)")
+            print("LOG: Error with base URLComponents (first step)")
             return
         }
         urlComponents.queryItems = [
@@ -61,7 +69,7 @@ final class WebViewViewController: UIViewController {
             URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
         guard let url = urlComponents.url else {
-            print("-----> Error with URLComponents' URL (second step)")
+            print("LOG: Error with URLComponents' URL (second step)")
             return
         }
         let request = URLRequest(url: url)
@@ -76,13 +84,13 @@ extension WebViewViewController: WKNavigationDelegate {
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
-        print("---->   WebView: in Cancel / Allow")
+        print("LOG: WebView: in Cancel / Allow")
         if let code = code(from: navigationAction) {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
-            print("GO CANCEL")
+            print("LOG: GO CANCEL")
             decisionHandler(.cancel)
         } else {
-            print("GO ALLOW")
+            print("LOG: GO ALLOW")
             decisionHandler(.allow)
         }
     }

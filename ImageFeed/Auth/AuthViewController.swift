@@ -16,6 +16,7 @@ protocol AuthViewControllerDelegate: AnyObject {
 final class AuthViewController: UIViewController, WebViewViewControllerDelegate {
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
+    private let alertService = AlertService.shared
     private let storage = OAuth2TokenStorage()
     weak var delegate: AuthViewControllerDelegate?
     
@@ -46,11 +47,9 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
                 print("WENT TO SUCCESS")
                 self.delegate?.didAuthenticate()
             case .failure(let error):
-                //TODO: наладить функционирование, чтобы нормально закрывалось окно и как-то реагировало приложение
-                // возможно нужно добавить код, который сворачивал был webView, иначе там как будто несостыковка
-                print("*** WENT TO FAILURE before dismiss ***")
                 UIBlockingProgressHUD.dismiss()
                 self.dismiss(animated: true, completion: nil)
+                self.alertService.showAlert(withTitle: "Ой", withText: "Что-то пошло не так", on: self)
                 print("This error during Network or decoding: ", error)
             }
         }

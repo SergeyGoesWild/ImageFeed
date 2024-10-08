@@ -33,15 +33,12 @@ final class OAuth2Service {
         if task != nil {
             if lastCode != code {
                 task?.cancel()
-                print("-----> 01")
             } else {
-                print("-----> 02")
                 completion(.failure(AuthServiceError.invalidRequest))
                 return
             }
         } else {
             if lastCode == code {
-                print("-----> 03")
                 completion(.failure(AuthServiceError.invalidRequest))
                 return
             }
@@ -49,7 +46,7 @@ final class OAuth2Service {
         lastCode = code
         
         guard let request = makeUrlRequest(code: code) else {
-            print("-----> [AuthService]: url request error")
+            print("LOG: [AuthService]: url request error")
             completion(.failure(NetworkError.urlRequestError))
             return
         }
@@ -59,7 +56,7 @@ final class OAuth2Service {
             case .success(let tokenResponse):
                 completion(.success(tokenResponse.access_token))
             case .failure(let error):
-                print("-----> [AuthService]: Error while fetching")
+                print("LOG: [AuthService]: Error while fetching")
                 completion(.failure(error))
             }
         }
@@ -68,7 +65,7 @@ final class OAuth2Service {
     func makeUrlRequest(code: String) -> URLRequest? {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
-        urlComponents.host = "unsplash1.com"
+        urlComponents.host = "unsplash.com"
         urlComponents.path = "/oauth/token"
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
@@ -83,12 +80,11 @@ final class OAuth2Service {
             request.httpMethod = "POST"
             return request
         } else {
-            print("Problem with URL")
+            print("LOG: Problem with URL")
             return nil
         }
     }
     
-    //TODO: материал чтобы изменить состояние гонки здесь, примени, потом удали это
     func networkClient(request: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
         
         let fulfillCompletionOnTheMainThread: (Result<Data, Error>) -> Void = { result in
