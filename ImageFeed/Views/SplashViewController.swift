@@ -12,7 +12,7 @@ import SwiftKeychainWrapper
 final class SplashViewController: UIViewController {
     private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     private let oauth2TokenStorage = OAuth2TokenStorage()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         KeychainWrapper.standard.removeObject(forKey: "token")
@@ -21,7 +21,7 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        
         if let token = oauth2TokenStorage.token {
             print(token)
             didAuthenticate()
@@ -34,16 +34,16 @@ final class SplashViewController: UIViewController {
             }
         }
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
     }
-
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
-
+    
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
@@ -65,26 +65,29 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate() {
+        var userName = ""
+        
         print("LOG: CAME TO DID AUTH")
         dismiss(animated: true)
         UIBlockingProgressHUD.show()
         ProfileService.shared.fetchProfile(oauth2TokenStorage.token!) { result in
             print("Запустили фетч ПРОФАЙЛ")
             switch result {
-            
+                
             case .success(let profile):
-                    UIBlockingProgressHUD.dismiss()
-                    print("КОНЕЦ фетч ПРОФАЙЛ")
+                UIBlockingProgressHUD.dismiss()
+                userName = profile.username
+                print("КОНЕЦ фетч ПРОФАЙЛ")
             case .failure(let error):
-                    print("Error while retrieving profile DATA")
-                    print(error)
-                    UIBlockingProgressHUD.dismiss()
+                print("Error while retrieving profile DATA")
+                print(error)
+                UIBlockingProgressHUD.dismiss()
             }
         }
         
         switchToTabBarController()
         
-        ProfileImageService.shared.fetchProfileImageURL(userName: "sergeytelnov34") { result in
+        ProfileImageService.shared.fetchProfileImageURL(userName: userName) { result in
             print("Запустили фетч ФОТО")
             switch result {
             case .success(let result):

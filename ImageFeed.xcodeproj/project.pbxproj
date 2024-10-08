@@ -133,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				2ACC2D552C98EAAF00392EEA /* WebViewViewController.swift */,
+				2ACC2D592C9D880F00392EEA /* OAuth2Service.swift */,
 				2ACC2D522C98A30800392EEA /* AuthViewController.swift */,
 			);
 			path = Auth;
@@ -141,7 +142,6 @@
 		2ACC2D5D2C9E1FEF00392EEA /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				2ACC2D592C9D880F00392EEA /* OAuth2Service.swift */,
 				2ACC2D5E2C9F34FE00392EEA /* OAuth2TokenStorage.swift */,
 				2A08D37E2CA6E16D00873435 /* UIBlockingProgressHUD.swift */,
 				2A6F76AA2CB5437300C86988 /* AlertService.swift */,
