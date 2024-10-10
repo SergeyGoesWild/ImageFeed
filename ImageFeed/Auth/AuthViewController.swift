@@ -44,7 +44,6 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
             case .success(let access_token):
                 UIBlockingProgressHUD.dismiss()
                 self.storage.token = access_token
-                print("WENT TO SUCCESS")
                 self.delegate?.didAuthenticate()
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()

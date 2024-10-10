@@ -13,7 +13,7 @@ final class OAuth2TokenStorage{
     var token: String? {
         get {
             guard let returnValue = KeychainWrapper.standard.string(forKey: "token") else {
-                print("Problem with getting the token from memory")
+                print("LOG: Problem with getting the token from memory")
                 return nil
             }
             return returnValue

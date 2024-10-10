@@ -64,7 +64,6 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate() {
-        var userName = ""
         dismiss(animated: true)
         UIBlockingProgressHUD.show()
         guard let token = oauth2TokenStorage.token else {
@@ -75,22 +74,19 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let profile):
                 UIBlockingProgressHUD.dismiss()
-                userName = profile.username
+                ProfileImageService.shared.fetchProfileImageURL(userName: profile.username) { result in
+                    switch result {
+                    case .success(let result):
+                        print("LOG: [SplashViewController]: ProfileImageService ended in SUCCESS")
+                    case .failure(let error):
+                        print("LOG: [SplashViewController]: ProfileImageService ended in FAILURE")
+                    }
+                }
             case .failure(let error):
                 print("LOG: [SplashViewController]: Error while retrieving profile data: \(error)")
                 UIBlockingProgressHUD.dismiss()
             }
         }
-        
         switchToTabBarController()
-        
-        ProfileImageService.shared.fetchProfileImageURL(userName: userName) { result in
-            switch result {
-            case .success(let result):
-                print("LOG: [SplashViewController]: ProfileImageService ended in SUCCESS")
-            case .failure(let error):
-                print("LOG: [SplashViewController]: ProfileImageService ended in FAILURE")
-            }
-        }
     }
 }
