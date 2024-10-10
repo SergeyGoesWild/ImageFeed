@@ -23,7 +23,6 @@ final class SplashViewController: UIViewController {
         super.viewDidAppear(animated)
         
         if let token = oauth2TokenStorage.token {
-            print(token)
             didAuthenticate()
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -66,21 +65,19 @@ extension SplashViewController {
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate() {
         var userName = ""
-        
-        print("LOG: CAME TO DID AUTH")
         dismiss(animated: true)
         UIBlockingProgressHUD.show()
-        ProfileService.shared.fetchProfile(oauth2TokenStorage.token!) { result in
-            print("Запустили фетч ПРОФАЙЛ")
+        guard let token = oauth2TokenStorage.token else {
+            print("LOG: [SplashViewController]: Error with token")
+            return
+        }
+        ProfileService.shared.fetchProfile(token) { result in
             switch result {
-                
             case .success(let profile):
                 UIBlockingProgressHUD.dismiss()
                 userName = profile.username
-                print("КОНЕЦ фетч ПРОФАЙЛ")
             case .failure(let error):
-                print("Error while retrieving profile DATA")
-                print(error)
+                print("LOG: [SplashViewController]: Error while retrieving profile data: \(error)")
                 UIBlockingProgressHUD.dismiss()
             }
         }
@@ -88,12 +85,11 @@ extension SplashViewController: AuthViewControllerDelegate {
         switchToTabBarController()
         
         ProfileImageService.shared.fetchProfileImageURL(userName: userName) { result in
-            print("Запустили фетч ФОТО")
             switch result {
             case .success(let result):
-                print("конец фетч ФОТО")
+                print("LOG: [SplashViewController]: ProfileImageService ended in SUCCESS")
             case .failure(let error):
-                print(error)
+                print("LOG: [SplashViewController]: ProfileImageService ended in FAILURE")
             }
         }
     }

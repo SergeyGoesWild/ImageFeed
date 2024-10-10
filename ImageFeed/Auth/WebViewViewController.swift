@@ -17,7 +17,7 @@ protocol WebViewViewControllerDelegate: AnyObject {
 final class WebViewViewController: UIViewController {
     
     weak var delegate: WebViewViewControllerDelegate?
-    enum WebViewConstants {
+    private enum WebViewConstants {
         static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     }
     private var estimatedProgressObservation: NSKeyValueObservation?
@@ -41,7 +41,6 @@ final class WebViewViewController: UIViewController {
              })
     }
     
-    // Этот код добавил чтобы отработать сценарий ошибки, чтобы данные не кэшировались
     func clearWebViewData() {
         let websiteDataTypes = Set([WKWebsiteDataTypeCookies, WKWebsiteDataTypeLocalStorage, WKWebsiteDataTypeSessionStorage, WKWebsiteDataTypeDiskCache])
         let dateFrom = Date(timeIntervalSince1970: 0)

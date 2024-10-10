@@ -21,6 +21,12 @@ enum CommonError: Error {
     case tokenError
 }
 
+extension Error {
+    var errorCode:Int? {
+        return (self as NSError).code
+    }
+}
+
 extension URLSession {
     func data(
         for request: URLRequest,

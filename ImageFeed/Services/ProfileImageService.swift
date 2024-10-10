@@ -56,6 +56,7 @@ final class ProfileImageService {
                         object: self,
                         userInfo: ["URL": profileImageURL])
             case .failure(let error):
+                print("LOG: [ProfileImageService]: Error in networkClient")
                 completion(.failure(error))
             }
         }

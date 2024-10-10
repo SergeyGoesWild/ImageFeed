@@ -30,33 +30,32 @@ class ProfileViewController: UIViewController {
         textLabel.text = ProfileService.shared.profileToShare.bio
         
         profileImageServiceObserver = NotificationCenter.default
-                    .addObserver(
-                        forName: ProfileImageService.didChangeNotification,
-                        object: nil,
-                        queue: .main
-                    ) { [weak self] _ in
-                        guard let self = self else { return }
-                        self.updateAvatar()
-                    }
-                updateAvatar()
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
         
     }
     
     private func updateAvatar() {
-            guard
-                let profileImageURL = ProfileImageService.shared.avatarURL,
-                let url = URL(string: profileImageURL)
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
         else {
-                print("NOT GOOOD")
-                return
-            }
-            imageView.kf.setImage(with: url, placeholder: UIImage(named: "ProfilePhoto.png"))
-            print("ALLLLL GOOOOD")
+            print("LOG: [ProfileViewController]: Problem in updateAvatar()")
+            return
         }
+        imageView.kf.setImage(with: url, placeholder: UIImage(named: "ProfilePhoto.png"))
+    }
     
     @objc
     private func didTapExitButton() {
-        print("pressed EXIT button")
+        print("LOG: [ProfileViewController]: Pressed EXIT button")
     }
     
     private func makeProfilePicture(profilePictureName: String) -> UIImageView {

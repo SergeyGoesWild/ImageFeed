@@ -22,11 +22,11 @@ final class NetworkClient {
                     completion(.success(convertedData))
                 }
                 catch {
-                    print("LOG: Decoding error: \(error.localizedDescription), Data: \(String(data: data, encoding: .utf8) ?? "")")
+                    print("LOG: [NetworkClient] Decoding error: \(error.localizedDescription), Data: \(String(data: data, encoding: .utf8) ?? "")")
                     completion(.failure(CommonError.decodingError))
                 }
             case .failure(let error):
-                print(error)
+                print("LOG: [NetworkClient] Error in fetchData")
                 self.task?.cancel()
                 completion(.failure(error))
             }
@@ -37,7 +37,7 @@ final class NetworkClient {
         task = URLSession.shared.dataTask(with: request) { data, response, error in
             
             if let error = error {
-                print("LOG: [NetworkClient]: dataTask returned error")
+                print("LOG: [NetworkClient]: dataTask returned error with code: \(error.errorCode ?? 0)")
                 DispatchQueue.main.async {
                     completion(.failure(error))
                 }

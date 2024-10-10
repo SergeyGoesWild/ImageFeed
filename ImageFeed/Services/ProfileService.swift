@@ -44,6 +44,7 @@ final class ProfileService {
                 self.profileToShare = profile
                 completion(.success(profile))
             case .failure(let error):
+                print("LOG: [ProfileService]: Error in networkClient")
                 completion(.failure(error))
             }
         }
