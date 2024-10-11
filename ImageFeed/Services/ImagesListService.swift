@@ -47,6 +47,7 @@ final class ImagesListService {
     
     func fetchPhotosNextPage() {
         let nextPage = (lastLoadedPage ?? 0) + 1
+        lastLoadedPage = nextPage
         guard let token = storage.token else {
             print("LOG: [ImageListService] - Problem with TOKEN")
             return
@@ -60,12 +61,12 @@ final class ImagesListService {
             case .success(let photosFromFetch):
                 let photosConverted = self.convertToPhotos(photos: photosFromFetch)
                 self.photos.append(contentsOf: photosConverted)
+                print("Notification POSTED *********************")
                 NotificationCenter.default
                     .post(
                         name: ImagesListService.didChangeNotification,
                         object: self)
-                print("Notification POSTED *********************")
-            case .failure(let error):
+            case .failure(_):
                 print("LOG: [ImageListService] networkClient.objectTask FAILURE")
             }
         }

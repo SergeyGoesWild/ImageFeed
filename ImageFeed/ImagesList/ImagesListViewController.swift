@@ -12,7 +12,7 @@ final class ImagesListViewController: UIViewController {
     let imagesListService = ImagesListService()
     private var imagesListObserver: NSObjectProtocol?
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
-    private let photosName: [String] = Array(0..<20).map{ "\($0)" }
+//    private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -31,6 +31,7 @@ final class ImagesListViewController: UIViewController {
             print("Notification RECEIVED *********************")
             self.updateTableViewAnimated()
         }
+        imagesListService.fetchPhotosNextPage()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -42,9 +43,9 @@ final class ImagesListViewController: UIViewController {
                 assertionFailure("Invalid segue destination")
                 return
             }
-            
-            let image = UIImage(named: photosName[indexPath.row])
-            viewController.image = image
+            //TODO: поменять код сегвея, чтобы большая картинка отображалась нормально
+//            let image = UIImage(named: photosName[indexPath.row])
+//            viewController.image = image
         } else {
             super.prepare(for: segue, sender: sender)
         }
@@ -54,7 +55,7 @@ final class ImagesListViewController: UIViewController {
 extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photosName.count
+        return photos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -70,6 +71,7 @@ extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == photos.count - 1 {
+            print("LOG: [ImagesListViewController] TRIGGERING NEW")
             imagesListService.fetchPhotosNextPage()
         }
     }
@@ -81,7 +83,7 @@ extension ImagesListViewController: UITableViewDataSource {
             switch result {
             case .success(_):
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
-            case .failure(let error):
+            case .failure(_):
                 print("LOG: [ImagesListController] Failed to load the image")
             }
         }
@@ -89,10 +91,12 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func updateTableViewAnimated() {
+        print("LOG: [ImagesListViewController] UPDATING the table")
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
         photos = imagesListService.photos
         if oldCount != newCount {
+            print("LOG: [ImagesListViewController] BATCHING")
             tableView.performBatchUpdates {
                 let indexPaths = (oldCount..<newCount).map { i in
                     IndexPath(row: i, section: 0)
@@ -109,11 +113,8 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let image = UIImage(named: photosName[indexPath.row]) else {
-            return 0
-        }
-        let aspectRatio = image.size.width / image.size.height
+        let currentObject = photos[indexPath.row]
+        let aspectRatio = currentObject.size.width / currentObject.size.height
         return tableView.bounds.width / aspectRatio
     }
-    
 }
