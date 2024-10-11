@@ -48,7 +48,7 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()
                 self.dismiss(animated: true, completion: nil)
-                self.alertService.showAlert(withTitle: "Ой", withText: "Что-то пошло не так", on: self)
+                self.alertService.showAlert(withTitle: "Ой", withText: "Что-то пошло не так", on: self, withOk: "Ok", withCancel: nil, okAction: { print("Ok tapped") })
                 print("This error during Network or decoding: ", error)
             }
         }

@@ -9,10 +9,8 @@ import Kingfisher
 final class ImagesListViewController: UIViewController {
     
     var photos: [Photo] = []
-    let imagesListService = ImagesListService()
     private var imagesListObserver: NSObjectProtocol?
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
-//    private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -28,10 +26,9 @@ final class ImagesListViewController: UIViewController {
         tableView.dataSource = self
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         imagesListObserver = NotificationCenter.default.addObserver(forName: ImagesListService.didChangeNotification, object: nil, queue: .main) { _ in
-            print("Notification RECEIVED *********************")
             self.updateTableViewAnimated()
         }
-        imagesListService.fetchPhotosNextPage()
+        ImagesListService.shared.fetchPhotosNextPage()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -72,7 +69,7 @@ extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == photos.count - 1 {
             print("LOG: [ImagesListViewController] TRIGGERING NEW")
-            imagesListService.fetchPhotosNextPage()
+            ImagesListService.shared.fetchPhotosNextPage()
         }
     }
     
@@ -93,8 +90,8 @@ extension ImagesListViewController: UITableViewDataSource {
     func updateTableViewAnimated() {
         print("LOG: [ImagesListViewController] UPDATING the table")
         let oldCount = photos.count
-        let newCount = imagesListService.photos.count
-        photos = imagesListService.photos
+        let newCount = ImagesListService.shared.photos.count
+        photos = ImagesListService.shared.photos
         if oldCount != newCount {
             print("LOG: [ImagesListViewController] BATCHING")
             tableView.performBatchUpdates {

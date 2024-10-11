@@ -12,14 +12,17 @@ final class AlertService {
     static let shared = AlertService()
     private init() {}
     
-    func showAlert(withTitle title: String, withText text: String, on viewController: UIViewController) {
+    func showAlert(withTitle title: String, withText text: String, on viewController: UIViewController, withOk okTitle: String, withCancel cancelTitle: String?, okAction: (() -> Void)? = nil, cancelAction: (() -> Void)? = nil) {
+        
         let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
-        
-        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            print("LOG: OK tapped")
+        let okAction = UIAlertAction(title: okTitle, style: .default) { _ in
+            okAction?()
         }
-        
+        let cancelAction = UIAlertAction(title: cancelTitle, style: .default) { _ in
+            cancelAction?()
+        }
         alert.addAction(okAction)
+        alert.addAction(cancelAction)
         
         viewController.present(alert, animated: true, completion: nil)
     }

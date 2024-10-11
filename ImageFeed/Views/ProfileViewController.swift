@@ -42,6 +42,25 @@ class ProfileViewController: UIViewController {
         
     }
     
+    @objc
+    private func exitButtonAction() {
+        AlertService.shared.showAlert(withTitle: "Пока-пока!", withText: "Уверены, что хотите выйти?", on: self, withOk: "Да", withCancel: "Нет", okAction: {
+            print("Ok pressed")
+            ProfileLogoutService.shared.logout()
+            self.sendToAuthScreen()
+        }, cancelAction: {
+            print("Cancel pressed")
+        })
+    }
+    
+    func sendToAuthScreen() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let viewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController {
+            viewController.modalPresentationStyle = .fullScreen
+            self.present(viewController, animated: true, completion: nil)
+        }
+    }
+    
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
@@ -92,6 +111,7 @@ class ProfileViewController: UIViewController {
         let exitIcon = UIImage(named: iconName)
         let backupIcon = UIImage(systemName: "xmark.square")
         let exitButton = UIButton.systemButton(with: exitIcon ?? backupIcon!, target: self, action: #selector(Self.didTapExitButton))
+        exitButton.addTarget(self, action: #selector(exitButtonAction), for: .touchUpInside)
         return exitButton
     }
     

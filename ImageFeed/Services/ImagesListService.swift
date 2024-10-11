@@ -38,12 +38,19 @@ struct Photo: Codable {
 }
 
 final class ImagesListService {
+    static let shared = ImagesListService()
+    private init() {}
+    
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     private (set) var photos: [Photo] = []
     let perPage = 10
     var lastLoadedPage: Int?
     let networkClient = NetworkClient()
     let storage = OAuth2TokenStorage()
+    
+    func prepareToLogout() {
+        photos = []
+    }
     
     func fetchPhotosNextPage() {
         let nextPage = (lastLoadedPage ?? 0) + 1
@@ -61,7 +68,6 @@ final class ImagesListService {
             case .success(let photosFromFetch):
                 let photosConverted = self.convertToPhotos(photos: photosFromFetch)
                 self.photos.append(contentsOf: photosConverted)
-                print("Notification POSTED *********************")
                 NotificationCenter.default
                     .post(
                         name: ImagesListService.didChangeNotification,
