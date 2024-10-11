@@ -45,18 +45,6 @@ final class ImagesListService {
     let networkClient = NetworkClient()
     let storage = OAuth2TokenStorage()
     
-    func tableView(
-      _ tableView: UITableView,
-      willDisplay cell: UITableViewCell,
-      forRowAt indexPath: IndexPath
-    ) {
-        if photos.count == indexPath.row + 1 {
-            fetchPhotosNextPage()
-        } else {
-            //TODO: дописать здесь
-        }
-    }
-    
     func fetchPhotosNextPage() {
         let nextPage = (lastLoadedPage ?? 0) + 1
         guard let token = storage.token else {
@@ -76,6 +64,7 @@ final class ImagesListService {
                     .post(
                         name: ImagesListService.didChangeNotification,
                         object: self)
+                print("Notification POSTED *********************")
             case .failure(let error):
                 print("LOG: [ImageListService] networkClient.objectTask FAILURE")
             }
