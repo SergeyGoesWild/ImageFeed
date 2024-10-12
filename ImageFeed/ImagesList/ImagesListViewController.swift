@@ -40,9 +40,9 @@ final class ImagesListViewController: UIViewController {
                 assertionFailure("Invalid segue destination")
                 return
             }
-            //TODO: поменять код сегвея, чтобы большая картинка отображалась нормально
-//            let image = UIImage(named: photosName[indexPath.row])
-//            viewController.image = image
+//            let image = UIImage(named: "ProfilePhoto.png")
+//            let image = UIImage(named: photos[indexPath.row])
+            viewController.fullImageURL = URL(string: photos[indexPath.row].largeImageURL)
         } else {
             super.prepare(for: segue, sender: sender)
         }
