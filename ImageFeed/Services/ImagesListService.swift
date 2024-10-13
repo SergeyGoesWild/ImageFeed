@@ -15,7 +15,7 @@ struct PhotoResult: Codable {
     let width: Int
     let height: Int
     let description: String?
-    let likes: Int
+    let liked_by_user: Bool
     let urls: Urls
 }
 
@@ -50,6 +50,70 @@ final class ImagesListService {
     
     func prepareToLogout() {
         photos = []
+    }
+    
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        print("LOG: [ImageService] Like action FOLLOWED 02")
+        guard let token = storage.token else { return }
+        var request: URLRequest
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "api.unsplash.com"
+        urlComponents.path = "/photos/\(photoId)/like"
+        if let url = urlComponents.url {
+            request = URLRequest(url: url)
+            request.httpMethod = isLike ? "POST" : "DELETE"
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            print("LOG: [ImageListService] - Problem with URL COMPONENTS")
+            return
+        }
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            
+            if let error = error {
+                print("LOG: [NetworkClient]: dataTask returned error with code: \(error.errorCode ?? 0)")
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse,
+               response.statusCode < 200 || response.statusCode >= 300 {
+                print("LOG: [NetworkClient]: response error with code \(response.statusCode)")
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkError.httpStatusCode(response.statusCode)))
+                }
+                return
+            }
+            
+            guard data != nil else {
+                print("LOG: [NetworkClient]: dataTask error while unwrapping data")
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkError.dataError))
+                }
+                return
+            }
+            if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+               let photo = self.photos[index]
+               let newPhoto = Photo(
+                        id: photo.id,
+                        size: photo.size,
+                        createdAt: photo.createdAt,
+                        welcomeDescription: photo.welcomeDescription,
+                        thumbImageURL: photo.thumbImageURL,
+                        largeImageURL: photo.largeImageURL,
+                        isLiked: !photo.isLiked
+                    )
+                DispatchQueue.main.async {
+                    self.photos = self.photos.withReplaced(at: index, with: newPhoto)
+                }
+            }
+            DispatchQueue.main.async {
+                completion(.success(()))
+            }
+        }
+        task.resume()
     }
     
     func fetchPhotosNextPage() {
@@ -110,10 +174,20 @@ final class ImagesListService {
                 dateConverted = date
             }
             let sizeConverted = CGSize(width: CGFloat(photo.width), height: CGFloat(photo.height))
-            let convertedPhoto = Photo(id: photo.id, size: sizeConverted, createdAt: dateConverted, welcomeDescription: photo.description, thumbImageURL: photo.urls.thumb, largeImageURL: photo.urls.full, isLiked: photo.likes > 0)
+            let convertedPhoto = Photo(id: photo.id, size: sizeConverted, createdAt: dateConverted, welcomeDescription: photo.description, thumbImageURL: photo.urls.thumb, largeImageURL: photo.urls.full, isLiked: photo.liked_by_user)
             photosResult.append(convertedPhoto)
         }
         
         return photosResult
+    }
+}
+
+extension Array {
+    func withReplaced(at index: Int, with element: Element) -> [Element] {
+        var newArray = self
+        if index >= 0 && index < newArray.count {
+            newArray[index] = element
+        }
+        return newArray
     }
 }

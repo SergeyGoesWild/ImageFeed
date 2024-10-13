@@ -40,8 +40,6 @@ final class ImagesListViewController: UIViewController {
                 assertionFailure("Invalid segue destination")
                 return
             }
-//            let image = UIImage(named: "ProfilePhoto.png")
-//            let image = UIImage(named: photos[indexPath.row])
             viewController.fullImageURL = URL(string: photos[indexPath.row].largeImageURL)
         } else {
             super.prepare(for: segue, sender: sender)
@@ -57,12 +55,12 @@ extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-        
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
         
         configCell(for: imageListCell, with: indexPath)
+        imageListCell.delegate = self
         return imageListCell
     }
     
@@ -76,6 +74,7 @@ extension ImagesListViewController: UITableViewDataSource {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         let currentObject = photos[indexPath.row]
         cell.backgroundImage.kf.indicatorType = .activity
+        cell.setIsLiked(isLiked: currentObject.isLiked)
         cell.backgroundImage.kf.setImage(with: URL(string: currentObject.thumbImageURL), placeholder: UIImage(named: "Placeholder.png")) { result in
             switch result {
             case .success(_):
@@ -114,4 +113,29 @@ extension ImagesListViewController: UITableViewDelegate {
         let aspectRatio = currentObject.size.width / currentObject.size.height
         return tableView.bounds.width / aspectRatio
     }
+}
+
+extension ImagesListViewController: ImagesListCellDelegate {
+    
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        print("LOG: [TABLE] Like action FOLLOWED 01")
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+        UIBlockingProgressHUD.show()
+        ImagesListService.shared.changeLike(photoId: photo.id, isLike: !photo.isLiked) { result in
+            switch result {
+            case .success:
+                print("LOG: [TABLE] Like action FOLLOWED 03")
+                self.photos =  ImagesListService.shared.photos
+                cell.setIsLiked(isLiked: self.photos[indexPath.row].isLiked)
+                UIBlockingProgressHUD.dismiss()
+            case .failure:
+                print("LOG: [TABLE] Like action FOLLOWED 03")
+                UIBlockingProgressHUD.dismiss()
+                print("Error while LIKEs")
+//                AlertService.shared.showAlert(withTitle: "Ой-ой", withText: "Что-то не так с лайком", on: self, withOk: "Ok", okAction: { print("OkAction") })
+            }
+        }
+    }
+    
 }

@@ -12,7 +12,7 @@ final class AlertService {
     static let shared = AlertService()
     private init() {}
     
-    func showAlert(withTitle title: String, withText text: String, on viewController: UIViewController, withOk okTitle: String, withCancel cancelTitle: String?, okAction: (() -> Void)? = nil, cancelAction: (() -> Void)? = nil) {
+    func showAlert(withTitle title: String, withText text: String, on viewController: UIViewController, withOk okTitle: String, withCancel cancelTitle: String? = nil, okAction: (() -> Void)? = nil, cancelAction: (() -> Void)? = nil) {
         
         let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
         let okAction = UIAlertAction(title: okTitle, style: .default) { _ in
