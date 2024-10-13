@@ -75,9 +75,13 @@ extension ImagesListViewController: UITableViewDataSource {
         let currentObject = photos[indexPath.row]
         cell.backgroundImage.kf.indicatorType = .activity
         cell.setIsLiked(isLiked: currentObject.isLiked)
+//        cell.backgroundImage.image = UIImage(named: "Placeholder.png")
+//        cell.backgroundImage.contentMode = .center
+        cell.backgroundImage.contentMode = .center
         cell.backgroundImage.kf.setImage(with: URL(string: currentObject.thumbImageURL), placeholder: UIImage(named: "Placeholder.png")) { result in
             switch result {
             case .success(_):
+                cell.backgroundImage.contentMode = .scaleAspectFill
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
             case .failure(_):
                 print("LOG: [ImagesListController] Failed to load the image")
