@@ -75,8 +75,6 @@ extension ImagesListViewController: UITableViewDataSource {
         let currentObject = photos[indexPath.row]
         cell.backgroundImage.kf.indicatorType = .activity
         cell.setIsLiked(isLiked: currentObject.isLiked)
-//        cell.backgroundImage.image = UIImage(named: "Placeholder.png")
-//        cell.backgroundImage.contentMode = .center
         cell.backgroundImage.contentMode = .center
         cell.backgroundImage.kf.setImage(with: URL(string: currentObject.thumbImageURL), placeholder: UIImage(named: "Placeholder.png")) { result in
             switch result {
@@ -133,11 +131,14 @@ extension ImagesListViewController: ImagesListCellDelegate {
                 self.photos =  ImagesListService.shared.photos
                 cell.setIsLiked(isLiked: self.photos[indexPath.row].isLiked)
                 UIBlockingProgressHUD.dismiss()
+                
             case .failure:
                 print("LOG: [TABLE] Like action FOLLOWED 03")
                 UIBlockingProgressHUD.dismiss()
                 print("Error while LIKEs")
-//                AlertService.shared.showAlert(withTitle: "Ой-ой", withText: "Что-то не так с лайком", on: self, withOk: "Ok", okAction: { print("OkAction") })
+                DispatchQueue.main.async {
+                    AlertService.shared.showAlert(withTitle: "Ой-ой", withText: "Что-то не так с лайком", on: self, withOk: "Ok", okAction: { print("OkAction") })
+                }
             }
         }
     }

@@ -18,11 +18,14 @@ final class AlertService {
         let okAction = UIAlertAction(title: okTitle, style: .default) { _ in
             okAction?()
         }
-        let cancelAction = UIAlertAction(title: cancelTitle, style: .default) { _ in
-            cancelAction?()
-        }
         alert.addAction(okAction)
-        alert.addAction(cancelAction)
+        
+        if let cancelTitle = cancelTitle {
+            let cancelAction = UIAlertAction(title: cancelTitle, style: .default) { _ in
+                cancelAction?()
+            }
+            alert.addAction(cancelAction)
+        }
         
         viewController.present(alert, animated: true, completion: nil)
     }
