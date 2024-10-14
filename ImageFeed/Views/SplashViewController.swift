@@ -94,3 +94,4 @@ extension SplashViewController: AuthViewControllerDelegate {
         switchToTabBarController()
     }
 }
+
