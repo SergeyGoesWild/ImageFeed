@@ -59,15 +59,9 @@ class ProfileViewController: UIViewController {
     
     func sendToAuthScreen() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
-        let splashScreen = SplashViewController() // Create it directly if it's programmatic
+        let splashScreen = SplashViewController()
         window.rootViewController = splashScreen
         window.makeKeyAndVisible()
-        
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        if let viewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController {
-//            viewController.modalPresentationStyle = .fullScreen
-//            self.present(viewController, animated: true, completion: nil)
-//        }
     }
     
     private func updateAvatar() {

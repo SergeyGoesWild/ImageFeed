@@ -95,16 +95,16 @@ final class ImagesListService {
                 return
             }
             if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
-               let photo = self.photos[index]
-               let newPhoto = Photo(
-                        id: photo.id,
-                        size: photo.size,
-                        createdAt: photo.createdAt,
-                        welcomeDescription: photo.welcomeDescription,
-                        thumbImageURL: photo.thumbImageURL,
-                        largeImageURL: photo.largeImageURL,
-                        isLiked: !photo.isLiked
-                    )
+                let photo = self.photos[index]
+                let newPhoto = Photo(
+                    id: photo.id,
+                    size: photo.size,
+                    createdAt: photo.createdAt,
+                    welcomeDescription: photo.welcomeDescription,
+                    thumbImageURL: photo.thumbImageURL,
+                    largeImageURL: photo.largeImageURL,
+                    isLiked: !photo.isLiked
+                )
                 DispatchQueue.main.async {
                     self.photos = self.photos.withReplaced(at: index, with: newPhoto)
                 }
@@ -169,7 +169,6 @@ final class ImagesListService {
             var dateConverted: Date?
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-            //TODO: рассмотреть случай, где не разворачивается
             if let date = dateFormatter.date(from: photo.created_at ?? "") {
                 dateConverted = date
             }
