@@ -13,23 +13,43 @@ final class SingleImageViewController: UIViewController {
     var image: UIImage? {
         didSet {
             guard isViewLoaded, let image else { return }
-
             imageView.image = image
             imageView.frame.size = image.size
             rescaleAndCenterImageInScrollView(image: image)
         }
     }
     
+    var fullImageURL: URL?
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet private var imageView: UIImageView!
+    
+    deinit {
+        print("LOG: Deinit [SingleImageViewController] deallocated")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.delegate = self
-        guard let image = image else { return }
-        imageView.image = image
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
+        UIBlockingProgressHUD.show()
+        imageView.kf.setImage(with: fullImageURL) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageResult):
+                image = imageResult.image
+            case .failure:
+                AlertService.shared.showAlert(withTitle: "Что-то пошло не так", withText: "Попробовать ещё раз?", on: self, withOk: "Повторить", withCancel: "Не надо",
+                    okAction: {
+                    self.imageView.kf.setImage(with: self.fullImageURL)
+                }, cancelAction: {
+                    self.dismiss(animated: true, completion: nil)
+                })
+            }
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -38,7 +58,6 @@ final class SingleImageViewController: UIViewController {
         rescaleAndCenterImageInScrollView(image: image)
     }
     
-    //        Комментарий для проверяющего. Авторское решение, предложенное в уроке для метода rescaleAndCenterImageInScrollView не сработало у меня, даже если копировал-вставлял весь класс. Почему, пока не разобрался. Но написал свой метод, надеюсь, что вас это устроит, так как требования он удовлетворяет, видимо. + Добавил центрирование после отЗУМления картинки.
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
         let ratio = image.size.height / image.size.width
         imageView.frame.size.width = scrollView.frame.width

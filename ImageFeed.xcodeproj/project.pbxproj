@@ -24,6 +24,8 @@
 		2A90F2A32C8098E70007F7A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A90F2A22C8098E70007F7A2 /* Assets.xcassets */; };
 		2A90F2A62C8098E70007F7A2 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 2A90F2A52C8098E70007F7A2 /* Base */; };
 		2A90F2AE2C821B7E0007F7A2 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A90F2AD2C821B7E0007F7A2 /* ImagesListCell.swift */; };
+		2A9BD7792CB86F9F0030AABA /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9BD7782CB86F9F0030AABA /* ImagesListService.swift */; };
+		2A9BD77B2CB9BF340030AABA /* ProfileLogoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9BD77A2CB9BF340030AABA /* ProfileLogoutService.swift */; };
 		2ACC2D532C98A30800392EEA /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC2D522C98A30800392EEA /* AuthViewController.swift */; };
 		2ACC2D562C98EAAF00392EEA /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC2D552C98EAAF00392EEA /* WebViewViewController.swift */; };
 		2ACC2D582C9992B000392EEA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC2D572C9992B000392EEA /* Constants.swift */; };
@@ -52,6 +54,8 @@
 		2A90F2A52C8098E70007F7A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2A90F2A72C8098E70007F7A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A90F2AD2C821B7E0007F7A2 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		2A9BD7782CB86F9F0030AABA /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
+		2A9BD77A2CB9BF340030AABA /* ProfileLogoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLogoutService.swift; sourceTree = "<group>"; };
 		2ACC2D522C98A30800392EEA /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		2ACC2D552C98EAAF00392EEA /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		2ACC2D572C9992B000392EEA /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -142,6 +146,7 @@
 		2ACC2D5D2C9E1FEF00392EEA /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				2A9BD77A2CB9BF340030AABA /* ProfileLogoutService.swift */,
 				2ACC2D5E2C9F34FE00392EEA /* OAuth2TokenStorage.swift */,
 				2A08D37E2CA6E16D00873435 /* UIBlockingProgressHUD.swift */,
 				2A6F76AA2CB5437300C86988 /* AlertService.swift */,
@@ -149,6 +154,7 @@
 				2ACC2D5B2C9E1FDD00392EEA /* URLSession+data.swift */,
 				2A08D3882CAC7A0100873435 /* ProfileImageService.swift */,
 				2A08D38A2CADFF8500873435 /* NetworkClient.swift */,
+				2A9BD7782CB86F9F0030AABA /* ImagesListService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -239,11 +245,13 @@
 				2A90F29E2C8098E60007F7A2 /* ImagesListViewController.swift in Sources */,
 				2A90F2AE2C821B7E0007F7A2 /* ImagesListCell.swift in Sources */,
 				2ACC2D532C98A30800392EEA /* AuthViewController.swift in Sources */,
+				2A9BD7792CB86F9F0030AABA /* ImagesListService.swift in Sources */,
 				2A90F29A2C8098E60007F7A2 /* AppDelegate.swift in Sources */,
 				2ACC2D612CA0B03F00392EEA /* SplashViewController.swift in Sources */,
 				2A6ED0692C8A0DE900CB4A0D /* SingleImageViewController.swift in Sources */,
 				2A08D38B2CADFF8500873435 /* NetworkClient.swift in Sources */,
 				2ACC2D562C98EAAF00392EEA /* WebViewViewController.swift in Sources */,
+				2A9BD77B2CB9BF340030AABA /* ProfileLogoutService.swift in Sources */,
 				2A08D3892CAC7A0100873435 /* ProfileImageService.swift in Sources */,
 				2A08D38D2CB0A0BC00873435 /* Tab Bar Controller.swift in Sources */,
 				2A6F76AB2CB5437300C86988 /* AlertService.swift in Sources */,

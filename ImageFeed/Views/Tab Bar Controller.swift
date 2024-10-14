@@ -21,5 +21,8 @@ final class TabBarController: UITabBarController {
         )
         self.viewControllers = [imagesListViewController, profileViewController]
     }
+    deinit {
+        print("LOG: Deinit [TabBar] deallocated")
+    }
 }
 

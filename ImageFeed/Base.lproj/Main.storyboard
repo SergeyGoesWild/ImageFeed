@@ -55,9 +55,12 @@
                                                     <state key="normal" image="Heart">
                                                         <color key="titleColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
-                                                    <buttonConfiguration key="configuration" style="plain" image="LikeClicked">
+                                                    <buttonConfiguration key="configuration" style="plain" image="Like">
                                                         <color key="baseForegroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="likeButtonClicked:" destination="glu-aV-AYT" eventType="touchUpInside" id="08K-Rb-zaL"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -308,7 +311,7 @@
         <image name="18" width="854" height="1280"/>
         <image name="Heart" width="42" height="42"/>
         <image name="Image" width="50" height="50"/>
-        <image name="LikeClicked" width="42" height="42"/>
+        <image name="Like" width="42" height="42"/>
         <image name="LogoUnsplash" width="60" height="60"/>
         <image name="backChevron" width="9" height="15.666666984558105"/>
         <image name="tab_editorial_active" width="20" height="22"/>

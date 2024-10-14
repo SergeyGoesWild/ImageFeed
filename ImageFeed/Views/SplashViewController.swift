@@ -15,8 +15,12 @@ final class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        KeychainWrapper.standard.removeObject(forKey: "token")
+//        KeychainWrapper.standard.removeObject(forKey: "token")
         setupSplashScreen()
+    }
+    
+    deinit {
+        print("LOG: Deinit [SplashViewController] deallocated")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -76,9 +80,9 @@ extension SplashViewController: AuthViewControllerDelegate {
                 UIBlockingProgressHUD.dismiss()
                 ProfileImageService.shared.fetchProfileImageURL(userName: profile.username) { result in
                     switch result {
-                    case .success(let result):
+                    case .success(_):
                         print("LOG: [SplashViewController]: ProfileImageService ended in SUCCESS")
-                    case .failure(let error):
+                    case .failure(_):
                         print("LOG: [SplashViewController]: ProfileImageService ended in FAILURE")
                     }
                 }
@@ -90,3 +94,4 @@ extension SplashViewController: AuthViewControllerDelegate {
         switchToTabBarController()
     }
 }
+

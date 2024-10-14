@@ -41,6 +41,10 @@ final class WebViewViewController: UIViewController {
              })
     }
     
+    deinit {
+        print("LOG: Deinit [WebviewViewController] deallocated")
+    }
+    
     func clearWebViewData() {
         let websiteDataTypes = Set([WKWebsiteDataTypeCookies, WKWebsiteDataTypeLocalStorage, WKWebsiteDataTypeSessionStorage, WKWebsiteDataTypeDiskCache])
         let dateFrom = Date(timeIntervalSince1970: 0)

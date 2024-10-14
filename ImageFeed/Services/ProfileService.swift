@@ -29,7 +29,11 @@ final class ProfileService {
     
     private let storage = OAuth2TokenStorage()
     private let networkClient = NetworkClient()
-    private(set) var profileToShare: Profile = Profile(username: "A", name: "B", loginName: "C", bio: "D")
+    private(set) var profileToShare: Profile = Profile(username: "", name: "", loginName: "", bio: "")
+    
+    func prepareToLogout() {
+        profileToShare = Profile(username: "", name: "", loginName: "", bio: "")
+    }
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         guard let request = makeUrlRequestProfile(token: token) else {
