@@ -12,7 +12,7 @@ import WebKit
 final class ProfileLogoutService {
     static let shared = ProfileLogoutService()
     private init() { }
-    
+        
     func logout() {
         cleanCookies()
         deleteKey()

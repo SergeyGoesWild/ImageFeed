@@ -14,6 +14,10 @@ class ProfileViewController: UIViewController {
     private var profileImageServiceObserver: NSObjectProtocol?
     var imageView: UIImageView!
     
+    deinit {
+        print("LOG: Deinit [ProfileViewController] deallocated")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -19,6 +19,10 @@ final class SplashViewController: UIViewController {
         setupSplashScreen()
     }
     
+    deinit {
+        print("LOG: Deinit [SplashViewController] deallocated")
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         

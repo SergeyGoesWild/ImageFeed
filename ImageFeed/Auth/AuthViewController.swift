@@ -36,6 +36,10 @@ final class AuthViewController: UIViewController, WebViewViewControllerDelegate 
         }
     }
     
+    deinit {
+        print("LOG: Deinit [AuthViewController] deallocated")
+    }
+    
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         
         UIBlockingProgressHUD.show()

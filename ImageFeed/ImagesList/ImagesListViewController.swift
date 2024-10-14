@@ -20,13 +20,18 @@ final class ImagesListViewController: UIViewController {
     
     @IBOutlet weak private var tableView: UITableView!
     
+    deinit {
+            print("LOG: Deinit [ImagesListViewController] deallocated")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        imagesListObserver = NotificationCenter.default.addObserver(forName: ImagesListService.didChangeNotification, object: nil, queue: .main) { _ in
-            self.updateTableViewAnimated()
+        imagesListObserver = NotificationCenter.default.addObserver(forName: ImagesListService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
+            // TODO: HERE
+            self?.updateTableViewAnimated()
         }
         ImagesListService.shared.fetchPhotosNextPage()
     }
@@ -76,7 +81,9 @@ extension ImagesListViewController: UITableViewDataSource {
         cell.backgroundImage.kf.indicatorType = .activity
         cell.setIsLiked(isLiked: currentObject.isLiked)
         cell.backgroundImage.contentMode = .center
-        cell.backgroundImage.kf.setImage(with: URL(string: currentObject.thumbImageURL), placeholder: UIImage(named: "Placeholder.png")) { result in
+        cell.backgroundImage.kf.setImage(with: URL(string: currentObject.thumbImageURL), placeholder: UIImage(named: "Placeholder.png")) { [weak self] result in
+            //TODO: HERE maybe
+            guard let self = self else { return }
             switch result {
             case .success(_):
                 cell.backgroundImage.contentMode = .scaleAspectFill
@@ -124,7 +131,9 @@ extension ImagesListViewController: ImagesListCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let photo = photos[indexPath.row]
         UIBlockingProgressHUD.show()
-        ImagesListService.shared.changeLike(photoId: photo.id, isLike: !photo.isLiked) { result in
+        //TODO: HERE
+        ImagesListService.shared.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success:
                 print("LOG: [TABLE] Like action FOLLOWED 03")
@@ -142,5 +151,4 @@ extension ImagesListViewController: ImagesListCellDelegate {
             }
         }
     }
-    
 }
