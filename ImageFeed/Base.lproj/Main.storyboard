@@ -247,7 +247,7 @@
         <!--Web View View Controller-->
         <scene sceneID="PX9-Pk-HLO">
             <objects>
-                <viewController id="Vlv-3x-ZP6" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" id="Vlv-3x-ZP6" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RZU-6e-Sgo">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
