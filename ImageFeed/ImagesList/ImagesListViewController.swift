@@ -6,8 +6,15 @@
 import UIKit
 import Kingfisher
 
-final class ImagesListViewController: UIViewController {
+protocol ImagesListViewControllerProtocol: AnyObject {
+    var photos: [Photo] { get set }
+    var tableView: UITableView! { get set }
+    var presenter: ImagesListViewPresenterProtocol? { get set }
+}
+
+final class ImagesListViewController: ImagesListViewControllerProtocol & UIViewController {
     
+    var presenter: ImagesListViewPresenterProtocol?
     var photos: [Photo] = []
     private var imagesListObserver: NSObjectProtocol?
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
@@ -18,7 +25,7 @@ final class ImagesListViewController: UIViewController {
         return formatter
     }()
     
-    @IBOutlet weak private var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
     
     deinit {
         print("LOG: Deinit [ImagesListViewController] deallocated")
