@@ -16,7 +16,7 @@ final class ImagesListViewController: ImagesListViewControllerProtocol & UIViewC
     
     var presenter: ImagesListViewPresenterProtocol?
     var photos: [Photo] = []
-    private var imagesListObserver: NSObjectProtocol?
+    
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -41,9 +41,7 @@ final class ImagesListViewController: ImagesListViewControllerProtocol & UIViewC
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        imagesListObserver = NotificationCenter.default.addObserver(forName: ImagesListService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
-            self?.presenter?.updateTableViewAnimated()
-        }
+        presenter?.viewDidLoad()
         ImagesListService.shared.fetchPhotosNextPage()
     }
     
@@ -119,25 +117,7 @@ extension ImagesListViewController: UITableViewDelegate {
 }
 
 extension ImagesListViewController: ImagesListCellDelegate {
-    
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let photo = photos[indexPath.row]
-        UIBlockingProgressHUD.show()
-        ImagesListService.shared.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success:
-                self.photos =  ImagesListService.shared.photos
-                cell.setIsLiked(isLiked: self.photos[indexPath.row].isLiked)
-                UIBlockingProgressHUD.dismiss()
-                
-            case .failure:
-                UIBlockingProgressHUD.dismiss()
-                DispatchQueue.main.async {
-                    AlertService.shared.showAlert(withTitle: "Ой-ой", withText: "Что-то не так с лайком", on: self, withOk: "Ok", okAction: { print("OkAction") })
-                }
-            }
-        }
+        presenter?.presenterProcessLike(cell)
     }
 }
