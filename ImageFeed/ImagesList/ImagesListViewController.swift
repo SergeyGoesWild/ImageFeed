@@ -33,11 +33,16 @@ final class ImagesListViewController: ImagesListViewControllerProtocol & UIViewC
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 15.0, *) {
+            tableView.isPrefetchingEnabled = false
+        } else {
+            // Fallback on earlier versions
+        }
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         imagesListObserver = NotificationCenter.default.addObserver(forName: ImagesListService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
-            self?.updateTableViewAnimated()
+            self?.presenter?.updateTableViewAnimated()
         }
         ImagesListService.shared.fetchPhotosNextPage()
     }
@@ -98,22 +103,6 @@ extension ImagesListViewController: UITableViewDataSource {
             }
         }
         cell.dateLabel.text = dateFormatter.string(from: currentObject.createdAt ?? Date())
-    }
-    
-    func updateTableViewAnimated() {
-        print("LOG: [ImagesListViewController] UPDATING the table")
-        let oldCount = photos.count
-        let newCount = ImagesListService.shared.photos.count
-        photos = ImagesListService.shared.photos
-        if oldCount != newCount {
-            print("LOG: [ImagesListViewController] BATCHING")
-            tableView.performBatchUpdates {
-                let indexPaths = (oldCount..<newCount).map { i in
-                    IndexPath(row: i, section: 0)
-                }
-                tableView.insertRows(at: indexPaths, with: .automatic)
-            } completion: { _ in }
-        }
     }
 }
 

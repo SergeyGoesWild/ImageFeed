@@ -10,6 +10,7 @@ import UIKit
 
 protocol ImagesListViewPresenterProtocol: AnyObject {
     var view: ImagesListViewControllerProtocol? { get set }
+    func updateTableViewAnimated()
 }
 
 final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
