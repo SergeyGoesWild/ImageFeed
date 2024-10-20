@@ -29,9 +29,12 @@ class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
 
         imageView = makeProfilePicture(profilePictureName: "ProfilePhoto")
         let nameLabel = makeNameLabel(userName: "Екатерина Новикова")
+        nameLabel.accessibilityIdentifier = "Name Lastname"
         let tagLabel = makeTagLabel(profileTag: "@ekaterina_nov")
+        tagLabel.accessibilityIdentifier = "@username"
         let textLabel = makeTextLabel(profileText: "Hello, world!")
         let exitButton = makeExitButton(iconName: "ExitButton")
+        exitButton.accessibilityIdentifier = "logout button"
         
         setupProfileScreen(profilePicture: imageView, nameLabel: nameLabel, tagLabel: tagLabel, textLabel: textLabel, exitButton: exitButton, sidePadding: 16, topPadding: 52, lineSpacing: 8)
         
