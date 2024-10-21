@@ -16,8 +16,9 @@ final class WebViewTests: XCTestCase {
         let presenter = WebViewPresenterSpy()
         viewController.presenter = presenter
         presenter.view = viewController
-        _ = presenter.viewDidLoad()
-        XCTAssertTrue(presenter.viewDidLoadCalled) //behaviour verification
+        viewController.loadViewIfNeeded()
+
+        XCTAssertTrue(presenter.viewDidLoadCalled)
     }
     
     func testPresenterCallsLoadRequest() {
@@ -26,7 +27,7 @@ final class WebViewTests: XCTestCase {
         let presenter = WebViewPresenter(authHelper: authHelper)
         viewController.presenter = presenter
         presenter.view = viewController
-        _ = presenter.viewDidLoad()
+        presenter.viewDidLoad()
         
         
         XCTAssertTrue(viewController.viewDidCalledLoadFunc)
@@ -98,7 +99,7 @@ final class WebViewPresenterSpy: WebViewPresenterProtocol {
     
     func viewDidLoad() {
         viewDidLoadCalled = true
-        view?.load(request: URLRequest(url: URL(string: "exemple.com")!))
+//        view?.load(request: URLRequest(url: URL(string: "exemple.com")!))
     }
     
     func didUpdateProgressValue(_ newValue: Double) {

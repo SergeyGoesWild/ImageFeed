@@ -9,21 +9,35 @@ import XCTest
 @testable import ImageFeed
 
 final class ProfileViewTests: XCTestCase {
+    
+    func testNumberOfElementsCreated() {
+        let profileController = ProfileViewController()
+        let buttons = profileController.view.subviews.compactMap { $0 as? UIButton }
+        let textFields = profileController.view.subviews.compactMap { $0 as? UILabel }
+        let images = profileController.view.subviews.compactMap { $0 as? UIImageView }
+        
+        XCTAssertEqual(buttons.count, 1)
+        XCTAssertEqual(textFields.count, 3)
+        XCTAssertEqual(images.count, 1)
+    }
+    
     func testViewControllerCallsViewDidLoad() {
         let profileViewController = ProfileViewController()
         let presenter = ProfilePresenterSpy()
         profileViewController.presenter = presenter
         presenter.view = profileViewController
-        _ = presenter.viewDidLoad()
+        profileViewController.loadViewIfNeeded()
+
         XCTAssertTrue(presenter.viewDidLoadCalled)
     }
     
-    func testViewPresenterReactsNotification() {
+    func testViewPresenterReactsToNotification() {
         let profileViewController = ProfileViewControllerSpy()
         let presenter = ProfileViewPresenter()
         profileViewController.presenter = presenter
         presenter.view = profileViewController
         let imageService = ImageServiceSpy()
+        presenter.viewDidLoad()
         imageService.sendNotification()
         XCTAssertTrue(profileViewController.notificationDidReact)
     }
@@ -50,7 +64,7 @@ final class ImageServiceSpy {
     func sendNotification() {
         NotificationCenter.default
             .post(
-                name: ImageServiceSpy.didChangeNotification,
+                name: ProfileImageService.didChangeNotification,
                 object: self)
     }
 }
@@ -62,6 +76,4 @@ final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
     func updateAvatar() {
         notificationDidReact = true
     }
-    
-    
 }
