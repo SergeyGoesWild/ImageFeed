@@ -53,6 +53,12 @@ final class NetworkClient {
                 return
             }
             
+            if let response = response as? HTTPURLResponse {
+                self.checkRateLimit(response: response)
+            } else {
+                print("Failed to cast URLResponse to HTTPURLResponse.")
+            }
+            
             guard let data = data else {
                 print("LOG: [NetworkClient]: dataTask error while unwrapping data")
                 DispatchQueue.main.async {
@@ -66,5 +72,17 @@ final class NetworkClient {
         }
         guard let networkTask = task else { return }
         networkTask.resume()
+    }
+    
+    func checkRateLimit(response: HTTPURLResponse) {
+        if let limit = response.allHeaderFields["X-Ratelimit-Limit"] as? String,
+           let remaining = response.allHeaderFields["X-Ratelimit-Remaining"] as? String,
+           let reset = response.allHeaderFields["X-Ratelimit-Reset"] as? String {
+            print("Limit: \(limit)")
+            print("Remaining: \(remaining)")
+            print("Resets at: \(reset)")
+        } else {
+            print("Rate limit information not found in headers.")
+        }
     }
 }

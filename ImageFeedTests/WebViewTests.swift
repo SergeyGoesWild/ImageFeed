@@ -99,7 +99,6 @@ final class WebViewPresenterSpy: WebViewPresenterProtocol {
     
     func viewDidLoad() {
         viewDidLoadCalled = true
-//        view?.load(request: URLRequest(url: URL(string: "exemple.com")!))
     }
     
     func didUpdateProgressValue(_ newValue: Double) {

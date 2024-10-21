@@ -34,7 +34,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
         print("LOG: WebView: in viewDidLoad")
         webView.accessibilityIdentifier = "UnsplashWebView"
         webView.navigationDelegate = self
-//        clearWebViewData()
+        clearWebViewData()
         self.presenter?.viewDidLoad()
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
