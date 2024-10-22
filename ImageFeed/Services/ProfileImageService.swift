@@ -27,6 +27,10 @@ final class ProfileImageService {
     private let networkClient = NetworkClient()
     private (set) var avatarURL: String?
     
+    func prepareToLogout() {
+        avatarURL = nil
+    }
+    
     func fetchProfileImageURL(userName: String, _ completion: @escaping (Result<String, Error>) -> Void){
         guard let token = storage.token else {
             print("LOG: [ProfileImageService]: token error")

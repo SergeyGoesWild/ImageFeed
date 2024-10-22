@@ -14,6 +14,10 @@ class ProfileViewController: UIViewController {
     private var profileImageServiceObserver: NSObjectProtocol?
     var imageView: UIImageView!
     
+    deinit {
+        print("LOG: Deinit [ProfileViewController] deallocated")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +44,24 @@ class ProfileViewController: UIViewController {
             }
         updateAvatar()
         
+    }
+    
+    @objc
+    private func exitButtonAction() {
+        AlertService.shared.showAlert(withTitle: "Пока-пока!", withText: "Уверены, что хотите выйти?", on: self, withOk: "Да", withCancel: "Нет", okAction: {
+            print("Ok pressed")
+            ProfileLogoutService.shared.logout()
+            self.sendToAuthScreen()
+        }, cancelAction: {
+            print("Cancel pressed")
+        })
+    }
+    
+    func sendToAuthScreen() {
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        let splashScreen = SplashViewController()
+        window.rootViewController = splashScreen
+        window.makeKeyAndVisible()
     }
     
     private func updateAvatar() {
@@ -92,6 +114,7 @@ class ProfileViewController: UIViewController {
         let exitIcon = UIImage(named: iconName)
         let backupIcon = UIImage(systemName: "xmark.square")
         let exitButton = UIButton.systemButton(with: exitIcon ?? backupIcon!, target: self, action: #selector(Self.didTapExitButton))
+        exitButton.addTarget(self, action: #selector(exitButtonAction), for: .touchUpInside)
         return exitButton
     }
     
