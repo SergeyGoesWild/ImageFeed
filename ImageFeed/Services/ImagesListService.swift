@@ -117,6 +117,7 @@ final class ImagesListService {
     }
     
     func fetchPhotosNextPage() {
+        
         let nextPage = (lastLoadedPage ?? 0) + 1
         lastLoadedPage = nextPage
         guard let token = storage.token else {
