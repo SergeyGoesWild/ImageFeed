@@ -23,12 +23,14 @@ class ImageFeedUITests: XCTestCase {
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         passwordTextField.tap()
-        passwordTextField.typeText("Sergname-34")
+        // Вставить пароль здесь
+        passwordTextField.typeText(" ")
         webView.swipeUp()
         let loginTextField = webView.descendants(matching: .textField).element
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
         loginTextField.tap()
-        loginTextField.typeText("sergej.telnov@gmail.com")
+        // Вставить логин здесь
+        loginTextField.typeText(" ")
         webView.buttons["Login"].tap()
         let tablesQuery = app.tables
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
@@ -41,11 +43,13 @@ class ImageFeedUITests: XCTestCase {
         webView.swipeUp()
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         passwordTextField.tap()
-        passwordTextField.typeText("Sergname-34")
+        // Вставить пароль здесь
+        passwordTextField.typeText(" ")
         webView.swipeUp()
         let loginTextField = webView.descendants(matching: .textField).element
         loginTextField.tap()
-        loginTextField.typeText("sergej.telnov@gmail.com")
+        // Вставить логин здесь
+        loginTextField.typeText(" ")
         webView.buttons["Login"].tap()
         
         sleep(4)
@@ -83,11 +87,13 @@ class ImageFeedUITests: XCTestCase {
         webView.swipeUp()
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         passwordTextField.tap()
-        passwordTextField.typeText("Sergname-34")
+        // Вставить пароль здесь
+        passwordTextField.typeText(" ")
         webView.swipeUp()
         let loginTextField = webView.descendants(matching: .textField).element
         loginTextField.tap()
-        loginTextField.typeText("sergej.telnov@gmail.com")
+        // Вставить логин здесь
+        loginTextField.typeText(" ")
         webView.buttons["Login"].tap()
         
         sleep(4)

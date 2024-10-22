@@ -43,6 +43,7 @@ final class ImagesListService {
     
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     private (set) var photos: [Photo] = []
+    var lastPageReached: Bool = false
     let perPage = 10
     var lastLoadedPage: Int?
     let networkClient = NetworkClient()
@@ -117,7 +118,7 @@ final class ImagesListService {
     }
     
     func fetchPhotosNextPage() {
-        
+        if lastPageReached { return }
         let nextPage = (lastLoadedPage ?? 0) + 1
         lastLoadedPage = nextPage
         guard let token = storage.token else {
@@ -133,10 +134,16 @@ final class ImagesListService {
             case .success(let photosFromFetch):
                 let photosConverted = self.convertToPhotos(photos: photosFromFetch)
                 self.photos.append(contentsOf: photosConverted)
-                NotificationCenter.default
-                    .post(
-                        name: ImagesListService.didChangeNotification,
-                        object: self)
+                
+                if photosFromFetch.isEmpty {
+                    self.lastPageReached = true
+                    return
+                } else {
+                    NotificationCenter.default
+                        .post(
+                            name: ImagesListService.didChangeNotification,
+                            object: self)
+                }
             case .failure(_):
                 print("LOG: [ImageListService] networkClient.objectTask FAILURE")
             }

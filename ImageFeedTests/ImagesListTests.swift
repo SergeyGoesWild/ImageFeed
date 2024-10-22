@@ -31,17 +31,6 @@ final class ImagesViewTests: XCTestCase {
         
         XCTAssertTrue(presenter.viewDidLoadCalled)
     }
-    
-    //    func testViewPresenterReactsToNotification() {
-    //        let notificationEmmiter = ImageListServiceSpy()
-    //        let presenter = ImagesListPresenterSpy()
-    //        profileViewController.presenter = presenter
-    //        presenter.view = profileViewController
-    //        let imageService = ImageServiceSpy()
-    //        presenter.viewDidLoad()
-    //        imageService.sendNotification()
-    //        XCTAssertTrue(profileViewController.notificationDidReact)
-    //    }
 }
 
 final class ImagesListPresenterSpy: ImagesListViewPresenterProtocol {
