@@ -67,6 +67,5 @@ final class ImagesListControllerSpy: ImagesListViewControllerProtocol {
     var presenter: (any ImageFeed.ImagesListViewPresenterProtocol)?
     
     var notificationDidReact: Bool = false
-    
 }
 
