@@ -12,7 +12,7 @@ protocol ImagesListViewControllerProtocol: AnyObject {
     var presenter: ImagesListViewPresenterProtocol? { get set }
 }
 
-final class ImagesListViewController: ImagesListViewControllerProtocol & UIViewController {
+final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
     
     var presenter: ImagesListViewPresenterProtocol?
     var photos: [Photo] = []
@@ -35,8 +35,6 @@ final class ImagesListViewController: ImagesListViewControllerProtocol & UIViewC
         super.viewDidLoad()
         if #available(iOS 15.0, *) {
             tableView.isPrefetchingEnabled = false
-        } else {
-            // Fallback on earlier versions
         }
         tableView.delegate = self
         tableView.dataSource = self

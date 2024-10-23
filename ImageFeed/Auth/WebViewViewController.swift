@@ -34,8 +34,8 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
         print("LOG: WebView: in viewDidLoad")
         webView.accessibilityIdentifier = "UnsplashWebView"
         webView.navigationDelegate = self
-        clearWebViewData()
-        self.presenter?.viewDidLoad()
+        presenter?.clearWebViewData()
+        presenter?.viewDidLoad()
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
              options: [],
@@ -51,18 +51,6 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     
     func load(request: URLRequest) {
         webView.load(request)
-    }
-    
-    func callPresenter() {
-        self.presenter?.viewDidLoad()
-    }
-    
-    func clearWebViewData() {
-        let websiteDataTypes = Set([WKWebsiteDataTypeCookies, WKWebsiteDataTypeLocalStorage, WKWebsiteDataTypeSessionStorage, WKWebsiteDataTypeDiskCache])
-        let dateFrom = Date(timeIntervalSince1970: 0)
-        WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes, modifiedSince: dateFrom) {
-            print("LOG: Cleared web view data")
-        }
     }
     
     func setProgressValue(_ newValue: Float) {

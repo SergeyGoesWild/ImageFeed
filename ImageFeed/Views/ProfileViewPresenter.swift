@@ -35,7 +35,8 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     }
     
     func exitButtonPressed() {
-        AlertService.shared.showAlert(withTitle: "Пока-пока!", withText: "Уверены, что хотите выйти?", on: view as! UIViewController, withOk: "Да", withCancel: "Нет", okAction: {
+        AlertService.shared.showAlert(withTitle: "Пока-пока!", withText: "Уверены, что хотите выйти?", on: view as! UIViewController, withOk: "Да", withCancel: "Нет", okAction: { [weak self] in
+            guard let self = self else { return }
             print("Ok pressed")
             ProfileLogoutService.shared.logout()
             self.sendToAuthScreen()

@@ -17,7 +17,7 @@ protocol ImagesListViewPresenterProtocol: AnyObject {
 
 final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
     
-    var view: ImagesListViewControllerProtocol?
+    weak var view: ImagesListViewControllerProtocol?
     private var imagesListObserver: NSObjectProtocol?
     
     func viewDidLoad() {
