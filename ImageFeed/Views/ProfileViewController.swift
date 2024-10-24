@@ -9,9 +9,15 @@ import Foundation
 import UIKit
 import Kingfisher
 
-class ProfileViewController: UIViewController {
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfileViewPresenterProtocol? { get set }
+    func updateAvatar()
+}
+
+class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
+    var presenter: ProfileViewPresenterProtocol?
+    
     private let storage = OAuth2TokenStorage()
-    private var profileImageServiceObserver: NSObjectProtocol?
     var imageView: UIImageView!
     
     deinit {
@@ -20,12 +26,15 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         imageView = makeProfilePicture(profilePictureName: "ProfilePhoto")
         let nameLabel = makeNameLabel(userName: "Екатерина Новикова")
+        nameLabel.accessibilityIdentifier = "Name Lastname"
         let tagLabel = makeTagLabel(profileTag: "@ekaterina_nov")
+        tagLabel.accessibilityIdentifier = "@username"
         let textLabel = makeTextLabel(profileText: "Hello, world!")
         let exitButton = makeExitButton(iconName: "ExitButton")
+        exitButton.accessibilityIdentifier = "logout button"
         
         setupProfileScreen(profilePicture: imageView, nameLabel: nameLabel, tagLabel: tagLabel, textLabel: textLabel, exitButton: exitButton, sidePadding: 16, topPadding: 52, lineSpacing: 8)
         
@@ -33,38 +42,15 @@ class ProfileViewController: UIViewController {
         tagLabel.text = ProfileService.shared.profileToShare.loginName
         textLabel.text = ProfileService.shared.profileToShare.bio
         
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()
-            }
-        updateAvatar()
-        
+        self.presenter?.viewDidLoad()
     }
     
     @objc
     private func exitButtonAction() {
-        AlertService.shared.showAlert(withTitle: "Пока-пока!", withText: "Уверены, что хотите выйти?", on: self, withOk: "Да", withCancel: "Нет", okAction: {
-            print("Ok pressed")
-            ProfileLogoutService.shared.logout()
-            self.sendToAuthScreen()
-        }, cancelAction: {
-            print("Cancel pressed")
-        })
+        presenter?.exitButtonPressed()
     }
     
-    func sendToAuthScreen() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
-        let splashScreen = SplashViewController()
-        window.rootViewController = splashScreen
-        window.makeKeyAndVisible()
-    }
-    
-    private func updateAvatar() {
+    func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
