@@ -94,6 +94,9 @@ final class WebViewTests: XCTestCase {
 }
 
 final class WebViewPresenterSpy: WebViewPresenterProtocol {
+    func clearWebViewData() {
+    }
+    
     var viewDidLoadCalled: Bool = false
     var view: WebViewViewControllerProtocol?
     

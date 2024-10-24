@@ -70,7 +70,6 @@ final class ImagesListService {
             return
         }
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            
             if let error = error {
                 print("LOG: [NetworkClient]: dataTask returned error with code: \(error.errorCode ?? 0)")
                 DispatchQueue.main.async {

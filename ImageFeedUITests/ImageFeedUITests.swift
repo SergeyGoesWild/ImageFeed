@@ -10,9 +10,9 @@ import XCTest
 class ImageFeedUITests: XCTestCase {
     private let app = XCUIApplication()
     // Вставить логин здесь
-    private let login = "sergej.telnov@gmail.com"
+    private let login = " "
     // Вставить пароль здесь
-    private let pass = "Sergname-34"
+    private let pass = " "
     
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -30,15 +30,15 @@ class ImageFeedUITests: XCTestCase {
     func testFeed() throws {
         goThroughAuth()
         
+        sleep(2)
         let tablesQuery = app.tables
-        let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
-        cell.swipeUp()
-        sleep(2)
         
-        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
-        cellToLike.buttons["like button"].tap()
+        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 0)
+        XCTAssertTrue(cellToLike.waitForExistence(timeout: 5), "CellToLike not found")
+        let likeButton = cellToLike.buttons["like button"]
+        XCTAssertTrue(likeButton.waitForExistence(timeout: 5), "LikeButton not found")
         sleep(2)
-        
+       
         cellToLike.tap()
         sleep(2)
         
@@ -65,10 +65,12 @@ class ImageFeedUITests: XCTestCase {
         let webView = app.webViews["UnsplashWebView"]
         webView.swipeUp()
         let passwordTextField = webView.descendants(matching: .secureTextField).element
+        XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5), "Password field not found")
         passwordTextField.tap()
         passwordTextField.typeText(pass)
         webView.swipeUp()
         let loginTextField = webView.descendants(matching: .textField).element
+        XCTAssertTrue(loginTextField.waitForExistence(timeout: 5), "Login field not found")
         loginTextField.tap()
         loginTextField.typeText(login)
         webView.buttons["Login"].tap()
