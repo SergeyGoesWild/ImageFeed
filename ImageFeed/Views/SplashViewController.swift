@@ -15,7 +15,7 @@ final class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        KeychainWrapper.standard.removeObject(forKey: "token")
+        KeychainWrapper.standard.removeObject(forKey: "token")
         setupSplashScreen()
     }
     
